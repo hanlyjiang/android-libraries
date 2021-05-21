@@ -395,7 +395,7 @@ public class RefInvoker {
     }
 
     /**
-     * 更新字段值
+     * 更新字段值，注意，需指明直接类
      *
      * @param target     目标对象，如果是静态字段，这可为null
      * @param clazz      类

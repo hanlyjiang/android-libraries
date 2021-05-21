@@ -2,9 +2,13 @@ package cn.hanlyjiang.apf_library.utils;
 
 import android.util.Log;
 
+/**
+ * 日志工具类，COPY FROM Android-Plugin-Framework
+ */
 public class LogUtil {
-	
-	private static boolean isEnable = false;
+
+    public static final String TAG = "HJ_AFP";
+    private static boolean isEnable = false;
 
     private static final int stackLevel = 4;
 
@@ -55,7 +59,7 @@ public class LogUtil {
                     }
                 }
                 while (str.length() > 0) {
-                    DEFAULT_LOGHANDLER.publish("Fairy", level, str.substring(0, Math.min(2000, str.length())).toString());
+                    DEFAULT_LOGHANDLER.publish(TAG, level, str.substring(0, Math.min(2000, str.length())).toString());
                     str.delete(0, 2000);
                 }
             } catch (Exception exception) {
