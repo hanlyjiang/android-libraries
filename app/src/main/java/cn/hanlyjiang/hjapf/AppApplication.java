@@ -4,6 +4,7 @@ import android.app.Application;
 
 import cn.hanlyjiang.apf_library.utils.LogUtil;
 import cn.hanlyjiang.hjapf.hook.activity.ActivityInstrumentationHook;
+import cn.hanlyjiang.hjapf.hook.activity.ActivityManagerHook;
 
 /**
  * Application 入口
@@ -19,7 +20,8 @@ public class AppApplication extends Application {
 
         LogUtil.setEnable(BuildConfig.DEBUG);
 
-        ActivityInstrumentationHook.install(this);
+//        ActivityInstrumentationHook.install(this);
+        ActivityManagerHook.install();
     }
 
 }
