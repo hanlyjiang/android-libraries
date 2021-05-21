@@ -1,0 +1,3 @@
+include ':apf-library'
+include ':app'
+rootProject.name = "HJAPF"
