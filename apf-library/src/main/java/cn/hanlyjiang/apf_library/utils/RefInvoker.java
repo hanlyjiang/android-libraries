@@ -41,6 +41,47 @@ public class RefInvoker {
     }
 
     /**
+     * 调用无参数构造函数
+     *
+     * @param className 类名
+     * @return 对象 or null
+     */
+    public static Object newInstance(String className) {
+        return newInstance(className, null, null);
+    }
+
+    /**
+     * 调用无参数构造函数
+     *
+     * @param clazz 类名
+     * @return 对象 or null
+     */
+    public static Object newInstance(Class clazz) {
+        return newInstance(clazz, null, null);
+    }
+
+    /**
+     * 调用单个参数构造函数
+     *
+     * @param className 类名
+     * @return 对象 or null
+     */
+    public static Object newInstance(String className, Object params) {
+        return newInstance(className, new Class[]{params.getClass(),}, new Object[]{params,});
+    }
+
+    /**
+     * 调用单个参数构造函数
+     *
+     * @param clazz 类名
+     * @return 对象 or null
+     */
+    public static Object newInstance(Class clazz, Object params) {
+        return newInstance(clazz, new Class[]{params.getClass(),}, new Object[]{params,});
+    }
+
+
+    /**
      * 构造对象
      *
      * @param className   类名
@@ -51,13 +92,29 @@ public class RefInvoker {
     public static Object newInstance(String className, Class[] paramTypes, Object[] paramValues) {
         try {
             Class clazz = forName(className);
-            Constructor constructor = clazz.getConstructor(paramTypes);
+            return newInstance(clazz, paramTypes, paramValues);
+        } catch (ClassNotFoundException e) {
+            LogUtil.printException("ClassNotFoundException", e);
+        }
+        return null;
+    }
+
+    /**
+     * 构造对象
+     *
+     * @param clazz       类名
+     * @param paramTypes  参数的类型定义数组
+     * @param paramValues 参数的值数组
+     * @return 新的对象
+     */
+    public static Object newInstance(Class clazz, Class[] paramTypes, Object[] paramValues) {
+        try {
+            // getConstructor只能获取公有构造函数，这里使用 getDeclaredConstructor 获取
+            Constructor constructor = clazz.getDeclaredConstructor(paramTypes);
             if (!constructor.isAccessible()) {
                 constructor.setAccessible(true);
             }
             return constructor.newInstance(paramValues);
-        } catch (ClassNotFoundException e) {
-            LogUtil.printException("ClassNotFoundException", e);
         } catch (NoSuchMethodException e) {
             LogUtil.printException("NoSuchMethodException", e);
         } catch (IllegalAccessException e) {
@@ -71,10 +128,41 @@ public class RefInvoker {
             } else if (cause instanceof Error) {
                 throw (Error) cause;
             } else {
-                throw new RuntimeException("fail to newInstance " + className);
+                throw new RuntimeException("fail to newInstance " + clazz.getName());
             }
         }
         return null;
+    }
+
+
+    /**
+     * 调用无参方法，通过string指定类
+     *
+     * @param target     目标对象，如果是调用静态方法，则可以为null
+     * @param className  类名
+     * @param methodName 方法名
+     * @return 方法调用返回值
+     */
+    public static Object invokeMethod(Object target, String className, String methodName) {
+        try {
+            Class clazz = forName(className);
+            return invokeMethod(target, clazz, methodName, null, null);
+        } catch (ClassNotFoundException e) {
+            LogUtil.printException("ClassNotFoundException", e);
+        }
+        return null;
+    }
+
+    /**
+     * 调用无参方法，通过string指定类
+     *
+     * @param target     目标对象，如果是调用静态方法，则可以为null
+     * @param clazz      类
+     * @param methodName 方法名
+     * @return 方法调用返回值
+     */
+    public static Object invokeMethod(Object target, Class clazz, String methodName) {
+        return invokeMethod(target, clazz, methodName, null, null);
     }
 
     /**
@@ -140,6 +228,82 @@ public class RefInvoker {
     }
 
     /**
+     * 调用无参static方法，通过Class指定类
+     *
+     * @param clazz      类
+     * @param methodName 方法名
+     * @return
+     */
+    public static Object invokeStaticMethod(Class clazz, String methodName) {
+        return invokeMethod(null, clazz, methodName, null, null);
+    }
+
+    /**
+     * 调用无参static方法，通过String指定类
+     *
+     * @param className  类
+     * @param methodName 方法名
+     * @return
+     */
+    public static Object invokeStaticMethod(String className, String methodName) {
+        return invokeMethod(null, className, methodName, null, null);
+    }
+
+    /**
+     * 调用static方法，通过Class指定类
+     *
+     * @param clazz       类
+     * @param methodName  方法名
+     * @param paramTypes  参数类型数组
+     * @param paramValues 参数值数组
+     * @return
+     */
+    public static Object invokeStaticMethod(Class clazz, String methodName, Class[] paramTypes,
+                                            Object[] paramValues) {
+        return invokeMethod(null, clazz, methodName, paramTypes, paramValues);
+    }
+
+
+    /**
+     * 调用static方法，通过String指定类
+     *
+     * @param className   类
+     * @param methodName  方法名
+     * @param paramTypes  参数类型数组
+     * @param paramValues 参数值数组
+     * @return
+     */
+    public static Object invokeStaticMethod(String className, String methodName, Class[] paramTypes,
+                                            Object[] paramValues) {
+        return invokeMethod(null, className, methodName, paramTypes, paramValues);
+    }
+
+
+    /**
+     * 获取对象的指定字段-通过String指定类
+     *
+     * @param className 类名
+     * @param fieldName 字段名称
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    public static Object getStaticField(String className, String fieldName) {
+        return getField(null, className, fieldName);
+    }
+
+    /**
+     * 获取对象的指定字段-通过Class指定类
+     *
+     * @param clazz     类
+     * @param fieldName 字段名称
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    public static Object getStaticField(Class clazz, String fieldName) {
+        return getField(null, clazz, fieldName);
+    }
+
+    /**
      * 获取对象的指定字段
      *
      * @param target    目标对象，如果是获取静态字段，则可为null
@@ -164,7 +328,7 @@ public class RefInvoker {
      * @param target    目标对象，如果是获取静态字段，则可为null
      * @param clazz     类
      * @param fieldName 字段名称
-     * @return
+     * @return 字段的值
      */
     @SuppressWarnings("rawtypes")
     public static Object getField(Object target, Class clazz, String fieldName) {
@@ -188,6 +352,28 @@ public class RefInvoker {
             }
         }
         return null;
+    }
+
+    /**
+     * 更新static字段值
+     *
+     * @param className  类
+     * @param fieldName  字段名
+     * @param fieldValue 字段值
+     */
+    public static void setStaticField(String className, String fieldName, Object fieldValue) {
+        setField(null, className, fieldName, fieldValue);
+    }
+
+    /**
+     * 更新static字段值
+     *
+     * @param clazz      类
+     * @param fieldName  字段名
+     * @param fieldValue 字段值
+     */
+    public static void setStaticField(Class clazz, String fieldName, Object fieldValue) {
+        setField(null, clazz, fieldName, fieldValue);
     }
 
     /**
