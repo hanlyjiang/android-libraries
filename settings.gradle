@@ -1,3 +1,4 @@
+include ':plugin_01'
 include ':apf-library'
 include ':app'
 rootProject.name = "HJAPF"

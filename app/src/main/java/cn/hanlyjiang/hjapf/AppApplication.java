@@ -5,6 +5,7 @@ import android.app.Application;
 import cn.hanlyjiang.apf_library.utils.LogUtil;
 import cn.hanlyjiang.hjapf.hook.activity.ActivityInstrumentationHook;
 import cn.hanlyjiang.hjapf.hook.activity.ActivityManagerHook;
+import cn.hanlyjiang.hjapf.hook.activity.HmCallbackHook;
 
 /**
  * Application 入口
@@ -21,7 +22,8 @@ public class AppApplication extends Application {
         LogUtil.setEnable(BuildConfig.DEBUG);
 
 //        ActivityInstrumentationHook.install(this);
-        ActivityManagerHook.install();
+//        ActivityManagerHook.install();
+        HmCallbackHook.install();
     }
 
 }
