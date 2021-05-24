@@ -1,0 +1,76 @@
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32")
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+plugins {
+    id("com.android.application")
+    kotlin("android")
+    kotlin("android.extensions")
+}
+
+
+fun initial(rootProject: Project, project: Project) {
+    val logger: Logger = Logging.getLogger("MyCustomTask")
+    fun log(msg: String) {
+        logger.log(LogLevel.LIFECYCLE, ":+++> $msg")
+    }
+
+    fun createCopyApkTask(apkPath: String, variant: com.android.build.gradle.api.ApplicationVariant) {
+        log("createCopyApkTask variant:${variant.name}, project: ${project.name}")
+        val hostProject = rootProject.project("app")
+        val assetSrcDirs = hostProject.android.sourceSets.getByName("main").assets.srcDirs
+        var hostProjectAssetsDir = ""
+        if (assetSrcDirs.isNotEmpty()) {
+            hostProjectAssetsDir = assetSrcDirs.first().absolutePath
+        }
+        if (hostProjectAssetsDir.isEmpty()) {
+            return
+        }
+        project.tasks.create("copyApkToHostAssets${variant.name.capitalize()}") {
+            group = "custom"
+            dependsOn("assemble${variant.name.capitalize()}")
+            doLast {
+                log("Copy $apkPath to $hostProjectAssetsDir")
+                val fileName = File(apkPath).name.replace("-${variant.name}", "")
+                copy {
+                    from(apkPath)
+                    into(hostProjectAssetsDir)
+                    rename {
+                        it.replace("-${variant.name}", "")
+                    }
+                }
+                if (File(hostProjectAssetsDir, fileName).isFile) {
+                    log("Copy Success!!!")
+                } else {
+                    log("Copy Failed!!! ")
+                }
+            }
+        }
+    }
+
+    project.afterEvaluate {
+        log("taskGraph.whenReady ")
+        project.android.applicationVariants.all { variant ->
+            log("开始遍历 applicationVariants， variant:${variant.name}, project: ${project.name}")
+            var apkFilePath = ""
+            variant.outputs.forEach {
+                log("${it.baseName},${it.dirName},${it.name}, ${it.outputFile}")
+                apkFilePath = it.outputFile.absolutePath
+            }
+            if (apkFilePath.isNotEmpty()) {
+                createCopyApkTask(apkFilePath, variant)
+            }
+            true
+        }
+    }
+}
+
