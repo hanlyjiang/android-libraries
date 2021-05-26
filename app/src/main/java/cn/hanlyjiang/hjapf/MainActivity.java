@@ -5,9 +5,10 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.github.hanlyjiang.lib.common.utils.ToastUtils;
 
 import java.util.List;
 
@@ -31,8 +32,7 @@ public class MainActivity extends AppCompatActivity {
         vBinding.getAppTasks.setOnClickListener(v -> {
             ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
             List<ActivityManager.AppTask> appTasks = activityManager.getAppTasks();
-            Toast.makeText(getApplicationContext(), "AppTask size=" + appTasks.size(),
-                    Toast.LENGTH_SHORT).show();
+            ToastUtils.showToast(getApplicationContext(), "AppTask size=" + appTasks.size());
         });
     }
 

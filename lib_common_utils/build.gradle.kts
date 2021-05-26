@@ -16,7 +16,7 @@ android {
         minSdkVersion(22)
         targetSdkVersion(30)
         versionCode(1)
-        versionName("1.0.0-SNAPSHOT")
+        versionName("1.0.1-SNAPSHOT")
 
         testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
         consumerProguardFiles("consumer-rules.pro")
@@ -124,7 +124,7 @@ afterEvaluate {
                 // 添加javadoc
                 artifact(tasks.getByName("jarJavadoc") as Jar)
                 // 添加source
-                // artifact(tasks.getByName("jarSource") as Jar)
+                 artifact(tasks.getByName("jarSource") as Jar)
             }
         }
 
