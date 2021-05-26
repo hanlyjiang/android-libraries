@@ -2,9 +2,14 @@
 buildscript {
     val kotlin_version by extra("1.4.32")
     repositories {
-        google()
-        jcenter()
-        mavenCentral()
+        // build model 卡住： https://blog.csdn.net/weixin_37119423/article/details/111500493
+//        google()
+//        jcenter()
+//        mavenCentral()
+        maven { url = java.net.URI.create("https://maven.aliyun.com/repository/jcenter") }
+        maven { url = java.net.URI.create("https://maven.aliyun.com/repository/google") }
+        maven { url = java.net.URI.create("https://maven.aliyun.com/repository/gradle-plugin") }
+        maven { url = java.net.URI.create("https://maven.aliyun.com/repository/public") }
     }
     dependencies {
         classpath("com.android.tools.build:gradle:4.1.3")
@@ -17,6 +22,10 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { setUrl("https://maven.aliyun.com/repository/jcenter") }
+        maven { setUrl("https://maven.aliyun.com/repository/google") }
+        maven { setUrl("https://maven.aliyun.com/repository/gradle-plugin") }
+        maven { setUrl("https://maven.aliyun.com/repository/public") }
         maven {
             name = "Sonatype-Snapshots"
             setUrl("https://oss.sonatype.org/content/repositories/snapshots")
@@ -37,9 +46,6 @@ allprojects {
                 password = property("ossrhPassword").toString()
             }
         }
-        google()
-        jcenter()
-        mavenCentral()
     }
 }
 
