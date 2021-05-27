@@ -2,6 +2,9 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("android.extensions")
+
+    // 引入我们本地仓库中的gradle插件
+    id("com.github.hanlyjiang.inline_apk_to_assets") version ("0.0.4") apply (false)
 }
 
 android {
@@ -20,7 +23,10 @@ android {
     buildTypes {
         getByName("release") {
             minifyEnabled(false)
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -41,6 +47,9 @@ dependencies {
     implementation("com.github.hanlyjiang:apf_library-debug:1.0.1-SNAPSHOT")
 
 }
+
+apply(plugin = "com.github.hanlyjiang.inline_apk_to_assets")
+
 
 //plugins.apply(io.hanlyjiang.gradle.android.PluginAssetsCopyPlugin::class.java)
 

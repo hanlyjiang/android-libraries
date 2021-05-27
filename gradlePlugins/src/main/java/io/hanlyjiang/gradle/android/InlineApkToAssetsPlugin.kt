@@ -1,12 +1,10 @@
 package io.hanlyjiang.gradle.android
 
-import com.android.build.api.dsl.ApkExtension
 import com.android.build.gradle.api.ApplicationVariant
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.tasks.Copy
+import org.gradle.kotlin.dsl.create
 import java.io.File
 
 /**
@@ -14,12 +12,14 @@ import java.io.File
  * @author hanlyjiang 5/24/21 2:27 PM
  * @version 1.0
  */
-class PluginAssetsCopyPlugin : Plugin<Project> {
+class InlineApkToAssetsPlugin : Plugin<Project> {
 
+    lateinit var pluginExtension: InlineApkToAssetsPluginExtension
 
-    override fun apply(target: Project) {
-        target.afterEvaluate {
-            initial(target.rootProject, target)
+    override fun apply(project: Project) {
+        pluginExtension = project.extensions.create("inline_apk_to_assets")
+        project.afterEvaluate {
+            initial(project.rootProject, project)
         }
     }
 
@@ -30,10 +30,10 @@ class PluginAssetsCopyPlugin : Plugin<Project> {
     private fun initial(_root: Project, _subProject: Project) {
         _subProject.run {
             log("project.afterEvaluate")
-            if (this.extensions.getByName("android") !is ApkExtension) {
+            if (!isAndroidAppProject()) {
                 return
             }
-            val android = getAndroid()
+            val android = getAndroidExtensionAsApp()
             log("变体size： ${android.applicationVariants.size}")
             android.applicationVariants.all { variant ->
                 log("开始遍历 applicationVariants， variant:${variant.name}, project: ${this.name}")
@@ -51,16 +51,28 @@ class PluginAssetsCopyPlugin : Plugin<Project> {
         }
     }
 
-    private fun Project.getAndroid() =
-            (this as ExtensionAware).extensions.getByName("android") as BaseAppModuleExtension
+    private fun getHostProjectPath(): String {
+        return if (pluginExtension.hostProjectName.isPresent) {
+            pluginExtension.hostProjectName.get()
+        } else {
+            "app"
+        }
+    }
 
-    private fun createCopyApkTask(apkPath: String, variant: ApplicationVariant, subProject: Project, rootProject: Project) {
+    private fun createCopyApkTask(
+        apkPath: String,
+        variant: ApplicationVariant,
+        subProject: Project,
+        rootProject: Project
+    ) {
         log("createCopyApkTask variant:${variant.name}, project: ${subProject.name}")
-        val hostProject = rootProject.project("app")
-        if (hostProject.extensions.getByName("android") !is com.android.build.gradle.AppExtension) {
+        val hostProject = rootProject.project(getHostProjectPath())
+        if (!hostProject.isAndroidAppProject()) {
+            logError("定义的Host App 不是application类型的项目")
             return
         }
-        val assetSrcDirs = hostProject.getAndroid().sourceSets.getByName("main").assets.srcDirs
+        val assetSrcDirs =
+            hostProject.getAndroidExtensionAsApp().sourceSets.getByName("main").assets.srcDirs
         var hostProjectAssetsDir = ""
         if (assetSrcDirs.isNotEmpty()) {
             hostProjectAssetsDir = assetSrcDirs.first().absolutePath
@@ -68,7 +80,10 @@ class PluginAssetsCopyPlugin : Plugin<Project> {
         if (hostProjectAssetsDir.isEmpty()) {
             return
         }
-        val copyTask = subProject.tasks.register("copyApkToHostAssets${variant.name.capitalize()}", Copy::class.java) {
+        val copyTask = subProject.tasks.register(
+            "copyApkToHostAssets${variant.name.capitalize()}",
+            Copy::class.java
+        ) {
             group = "custom"
 //                dependsOn("assemble${variant.name.capitalize()}")
             val fileName = File(apkPath).name.replace("-${variant.name}", "")
@@ -86,6 +101,8 @@ class PluginAssetsCopyPlugin : Plugin<Project> {
                 }
             }
         }
-        subProject.tasks.getByName("assemble${variant.name.capitalize()}").setFinalizedBy(mutableListOf(copyTask))
+        subProject.tasks.getByName("assemble${variant.name.capitalize()}")
+            .setFinalizedBy(mutableListOf(copyTask))
     }
+
 }

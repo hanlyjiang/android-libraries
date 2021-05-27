@@ -2,7 +2,7 @@ plugins {
     `java-library`
     id("kotlin")
     `java-gradle-plugin`
-    id("maven-publish")
+    `maven-publish`
     id("com.gradle.plugin-publish") version "0.15.0"
     `kotlin-dsl`
 }
@@ -13,32 +13,64 @@ java {
 }
 
 dependencies {
-    val android_gradle_build_version:String by extra
+    val android_gradle_build_version: String by extra
     // 添加android相关build tools依赖，以便使用 android gradle 相关的API
 //    implementation("com.android.tools.build:gradle:$android_gradle_build_version")
     implementation("com.android.tools.build:gradle:4.1.3")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${project.properties["kotlin_version"].toString()}")
 }
 
+// 用于指定所有的group
 group = "com.github.hanlyjiang"
-version = "0.0.3"
+// 用于指定当前仓库本身的版本
+version = "0.0.4"
 
-pluginBundle {
-    website = "https://github.com/hanlyjiang/android_maven_pub_plugin"
-    vcsUrl = "https://github.com/hanlyjiang/android_maven_pub_plugin.git"
-    tags = listOf("android", "library", "maven")
-}
 
+// 多个插件时，gradlePlugin需要放置到pluginBundle前面，避免出现pluginBundle中找不到插件config的情况
 gradlePlugin {
     plugins {
+
         create("AndroidMavenPubPlugin") {
             id = "com.github.hanlyjiang.android_maven_pub"
-            displayName = "Android maven publish plugin"
-            description = "Plugin for simplify publishing android library to maven center"
             implementationClass = "io.hanlyjiang.gradle.android.AndroidMavenPubPlugin"
+        }
+
+        create("InlineApkToAssetsPlugin") {
+            id = "com.github.hanlyjiang.inline_apk_to_assets"
+            implementationClass = "io.hanlyjiang.gradle.android.InlineApkToAssetsPlugin"
         }
     }
 }
+
+pluginBundle {
+    website = "https://github.com/hanlyjiang/HJAPF"
+    vcsUrl = "https://github.com/hanlyjiang/HJAPF.git"
+    //单个插件时，使用这里的定义
+    //    tags = listOf("android", "library", "maven")
+
+    // 定义多个插件时需要
+    // ref: https://plugins.gradle.org/docs/publish-plugin
+    (plugins){
+
+        "AndroidMavenPubPlugin" {
+            displayName = "Android maven publish plugin"
+            description = "Plugin for simplify publishing android library to maven center"
+            tags = listOf("android", "library", "maven")
+            version = "0.0.3"
+            group = "com.github.hanlyjiang"
+        }
+
+        "InlineApkToAssetsPlugin" {
+            displayName = "Copy App Module's APK files to HOST APP"
+            description = "Plugin for auto copy plugin's apk to host app assets dir"
+            tags = listOf("android", "library", "plugin")
+            version = "0.0.3"
+            group = "com.github.hanlyjiang"
+        }
+    }
+}
+
+
 
 publishing {
     repositories {
