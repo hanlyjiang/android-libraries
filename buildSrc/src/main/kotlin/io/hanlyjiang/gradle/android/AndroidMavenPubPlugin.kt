@@ -28,17 +28,33 @@ class AndroidMavenPubPlugin : Plugin<Project> {
         const val TaskGroup = "publishing"
         private const val SourceSet = "main"
         private const val Default_fromAndroidPubName = "release"
+        private const val USAGE = """
+            --- AndroidMavenPubPlugin 插件使用说明 ---
+            # 使用步骤：
+            1. 引入插件;
+            2. 配置(gradle配置及maven仓库配置）；
+            3. 执行任务；
+            请参考使用文档：https://github.com/hanlyjiang
+            ------ ------ ------ ------ ------ ------
+        """
     }
 
-    lateinit var pluginExtension: AndroidMavenPubPluginExtension
+    private lateinit var pluginExtension: AndroidMavenPubPluginExtension
+
     override fun apply(project: Project) {
+        logLifecycle(USAGE)
         logLifecycle("Apply")
-        pluginExtension = project.extensions.create<AndroidMavenPubPluginExtension>("android_pom")
-
-
+        pluginExtension = project.extensions.create("android_pom")
         if (!project.isAndroidLibProject()) {
             logError("不是android library项目，不执行任务扩展")
             return
+        }
+        // 注册一个帮助任务
+        project.tasks.register("${AndroidMavenPubPlugin::class.java.simpleName}-help") {
+            group = TaskGroup
+            doFirst {
+                logLifecycle(USAGE)
+            }
         }
         registerJarTasks(project)
         project.afterEvaluate {
@@ -95,10 +111,16 @@ class AndroidMavenPubPlugin : Plugin<Project> {
                                 artifactId = pluginExtension.artifactId.get()
                                 version = android.defaultConfig.versionName
                                 pom(pluginExtension.mavenPomAction.get())
-                                // 添加javadoc
-                                artifact(project.tasks.getByName(TaskName_jarJavadoc) as Jar)
-                                // 添加source
-                                artifact(project.tasks.getByName(TaskName_jarSource) as Jar)
+                                pluginExtension.run {
+                                    if (!includeJavadocJar.isPresent || includeJavadocJar.get()) {
+                                        // 添加javadoc
+                                        artifact(project.tasks.getByName(TaskName_jarJavadoc) as Jar)
+                                    }
+                                    if (!includeSourceJar.isPresent || includeSourceJar.get()) {
+                                        // 添加source
+                                        artifact(project.tasks.getByName(TaskName_jarSource) as Jar)
+                                    }
+                                }
                             }
                         }
                     }
