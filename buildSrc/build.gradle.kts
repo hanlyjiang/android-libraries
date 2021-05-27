@@ -7,11 +7,37 @@ plugins {
     `kotlin-dsl`
     signing
     `maven-publish`
+    id("com.gradle.plugin-publish") version "0.15.0"
 }
 
 group = "com.github.hanlyjiang"
 version = "0.0.2"
 
+pluginBundle {
+    website = "https://github.com/hanlyjiang/android_maven_pub_plugin"
+    vcsUrl = "https://github.com/hanlyjiang/android_maven_pub_plugin.git"
+    tags = listOf("android", "library", "maven")
+}
+
+gradlePlugin {
+    plugins {
+        create("AndroidMavenPubPlugin") {
+            id = "com.github.hanlyjiang.android_maven_pub"
+            displayName = "AndroidMavenPubPlugin"
+            description = "Plugin for simplify publishing android library to maven center"
+            implementationClass = "io.hanlyjiang.gradle.android.AndroidMavenPubPlugin"
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "localPluginRepository"
+            url = uri("../local-plugin-repository")
+        }
+    }
+}
 
 repositories {
     google()
