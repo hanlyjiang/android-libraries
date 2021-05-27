@@ -7,7 +7,7 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "io.github.hanlyjiang.gradle"
+group = "com.github.hanlyjiang"
 version = "0.0.2"
 
 

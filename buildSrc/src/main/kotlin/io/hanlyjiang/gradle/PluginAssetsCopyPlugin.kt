@@ -50,6 +50,7 @@ class PluginAssetsCopyPlugin : Plugin<Project> {
                 if (apkFilePath.isNotEmpty()) {
                     createCopyApkTask(apkFilePath, variant, _subProject, _root)
                 }
+                apkFilePath.isNotEmpty()
             }
         }
     }
@@ -72,22 +73,20 @@ class PluginAssetsCopyPlugin : Plugin<Project> {
             return
         }
         val copyTask = subProject.tasks.register("copyApkToHostAssets${variant.name.capitalize()}", Copy::class.java) {
-            it.apply {
-                group = "custom"
+            group = "custom"
 //                dependsOn("assemble${variant.name.capitalize()}")
-                val fileName = File(apkPath).name.replace("-${variant.name}", "")
-                from(apkPath)
-                into(hostProjectAssetsDir)
-                rename {
-                    it.replace("-${variant.name}", "")
-                }
-                doLast {
-                    log("Copy $apkPath to $hostProjectAssetsDir")
-                    if (File(hostProjectAssetsDir, fileName).isFile) {
-                        log("Copy Success!!!")
-                    } else {
-                        log("Copy Failed!!! ")
-                    }
+            val fileName = File(apkPath).name.replace("-${variant.name}", "")
+            from(apkPath)
+            into(hostProjectAssetsDir)
+            rename {
+                it.replace("-${variant.name}", "")
+            }
+            doLast {
+                log("Copy $apkPath to $hostProjectAssetsDir")
+                if (File(hostProjectAssetsDir, fileName).isFile) {
+                    log("Copy Success!!!")
+                } else {
+                    log("Copy Failed!!! ")
                 }
             }
         }
