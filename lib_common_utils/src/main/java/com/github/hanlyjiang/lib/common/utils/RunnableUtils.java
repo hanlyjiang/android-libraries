@@ -22,7 +22,7 @@ import java.util.concurrent.Future;
 public class RunnableUtils {
 
     private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(2);
-    private static final UIHandler sUIHandler = new UIHandler(Looper.getMainLooper());
+    private static final Handler sUIHandler = new Handler(Looper.getMainLooper());
 
     /**
      * 在UI线程中执行一个Runnable
@@ -51,7 +51,7 @@ public class RunnableUtils {
      * @param callableTask 要执行的任务
      * @return Future 对象
      */
-    public static Future postBG(Callable callableTask) {
+    public static Future<?> postBG(Callable<?> callableTask) {
         return EXECUTOR.submit(callableTask);
     }
 
@@ -69,32 +69,11 @@ public class RunnableUtils {
     private static void postUIWork(Runnable runnable, int delay) {
         Message msg = sUIHandler.obtainMessage();
         msg.obj = runnable;
-        msg.arg1 = delay;
-        sUIHandler.sendMessage(msg);
+        sUIHandler.sendMessageDelayed(msg, delay);
     }
 
     private static void postUIWork(Runnable runnable) {
         sUIHandler.post(runnable);
-    }
-
-
-    private static class UIHandler extends Handler {
-
-        UIHandler(Looper looper) {
-            super(looper);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.obj != null) {
-                if (msg.arg1 > 0) {
-                    postDelayed((Runnable) msg.obj, msg.arg1);
-                } else {
-                    post((Runnable) msg.obj);
-                }
-            }
-        }
     }
 
 }
