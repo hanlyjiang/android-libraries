@@ -45,10 +45,6 @@ class AndroidMavenPubPlugin : Plugin<Project> {
         logLifecycle(USAGE)
         logLifecycle("Apply")
         pluginExtension = project.extensions.create("android_pom")
-        if (!project.isAndroidLibProject()) {
-            logError("不是android library项目，不执行任务扩展")
-            return
-        }
         // 注册一个帮助任务
         project.tasks.register("${AndroidMavenPubPlugin::class.java.simpleName}-help") {
             group = TaskGroup
@@ -56,8 +52,12 @@ class AndroidMavenPubPlugin : Plugin<Project> {
                 logLifecycle(USAGE)
             }
         }
-        registerJarTasks(project)
         project.afterEvaluate {
+            if (!project.isAndroidLibProject()) {
+                logError("不是android library项目，不执行任务扩展")
+                return@afterEvaluate
+            }
+            registerJarTasks(project)
             checkExtension(pluginExtension)
             configMavenPublishing(project)
             configMavenSigning(project)
@@ -85,7 +85,8 @@ class AndroidMavenPubPlugin : Plugin<Project> {
 
     private fun configMavenSigning(project: Project) {
         project.extensions.configure("signing", Action<SigningExtension> {
-            val publishing = project.extensions.getByName(PublishingExtension.NAME) as PublishingExtension
+            val publishing =
+                project.extensions.getByName(PublishingExtension.NAME) as PublishingExtension
             sign(publishing.publications.getByName("release"))
         })
     }
@@ -97,62 +98,71 @@ class AndroidMavenPubPlugin : Plugin<Project> {
      */
     private fun configMavenPublishing(project: Project) {
         val android = project.getAndroidExtensionAsLibrary()
-        project.extensions.configure(PublishingExtension.NAME, createPublishingAction(project, android))
+        project.extensions.configure(
+            PublishingExtension.NAME,
+            createPublishingAction(project, android)
+        )
     }
 
     private fun createPublishingAction(project: Project, android: LibraryExtension) =
-            Action<PublishingExtension> {
-                publications {
-                    val pubCreateAction: Action<in Publication> = Action<Publication> {
-                        if (this is MavenPublication) {
-                            this.apply {
-                                from(project.components.getByName("release"))
-                                groupId = pluginExtension.groupId.get()
-                                artifactId = pluginExtension.artifactId.get()
-                                version = android.defaultConfig.versionName
-                                pom(pluginExtension.mavenPomAction.get())
-                                pluginExtension.run {
-                                    if (!includeJavadocJar.isPresent || includeJavadocJar.get()) {
-                                        // 添加javadoc
-                                        artifact(project.tasks.getByName(TaskName_jarJavadoc) as Jar)
-                                    }
-                                    if (!includeSourceJar.isPresent || includeSourceJar.get()) {
-                                        // 添加source
-                                        artifact(project.tasks.getByName(TaskName_jarSource) as Jar)
-                                    }
+        Action<PublishingExtension> {
+            publications {
+                val pubCreateAction: Action<in Publication> = Action<Publication> {
+                    if (this is MavenPublication) {
+                        this.apply {
+                            from(project.components.getByName("release"))
+                            groupId = pluginExtension.groupId.get()
+                            artifactId = pluginExtension.artifactId.get()
+                            version = android.defaultConfig.versionName
+                            pom(pluginExtension.mavenPomAction.get())
+                            pluginExtension.run {
+                                if (!includeJavadocJar.isPresent || includeJavadocJar.get()) {
+                                    // 添加javadoc
+                                    artifact(project.tasks.getByName(TaskName_jarJavadoc) as Jar)
+                                }
+                                if (!includeSourceJar.isPresent || includeSourceJar.get()) {
+                                    // 添加source
+                                    artifact(project.tasks.getByName(TaskName_jarSource) as Jar)
                                 }
                             }
                         }
                     }
-                    this.create("release", MavenPublication::class.java, pubCreateAction)
                 }
+                this.create("release", MavenPublication::class.java, pubCreateAction)
+            }
 
-                repositories {
-                    val ossrhCredentials = Action<PasswordCredentials> {
-                        username = project.properties["ossrhUsername"].toString()
-                        password = project.properties["ossrhPassword"].toString()
-                    }
-                    // sonar的仓库，地址根据项目的版本号来确定是snapshot还是正式仓库
-                    maven {
-                        name = "Sonartype"
+            repositories {
+                val ossrhCredentials = Action<PasswordCredentials> {
+                    username = project.properties["ossrhUsername"].toString()
+                    password = project.properties["ossrhPassword"].toString()
+                }
+                // sonar的仓库，地址根据项目的版本号来确定是snapshot还是正式仓库
+                maven {
+                    name = "Sonartype"
 
-                        val releasesRepoUrl = project.uri(getMavenReleaseUrl())
-                        val snapshotsRepoUrl = project.uri(getMavenSnapshotsUrl())
-                        url = if (android.defaultConfig.versionName.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
-                        credentials(ossrhCredentials)
-                        // snapshot的地址：
-                        // https://oss.sonatype.org/content/repositories/snapshots/com/github/hanlyjiang/android_common_utils/
-                    }
-                    // 项目本地的仓库
-                    maven {
-                        name = "ProjectLocal"
+                    val releasesRepoUrl = project.uri(getMavenReleaseUrl())
+                    val snapshotsRepoUrl = project.uri(getMavenSnapshotsUrl())
+                    url = if (android.defaultConfig.versionName.toString()
+                            .endsWith("SNAPSHOT")
+                    ) snapshotsRepoUrl else releasesRepoUrl
+                    credentials(ossrhCredentials)
+                    // snapshot的地址：
+                    // https://oss.sonatype.org/content/repositories/snapshots/com/github/hanlyjiang/android_common_utils/
+                }
+                // 项目本地的仓库
+                maven {
+                    name = "ProjectLocal"
 
-                        val releasesRepoUrl = project.uri(project.layout.buildDirectory.dir("repos/releases"))
-                        val snapshotsRepoUrl = project.uri(project.layout.buildDirectory.dir("repos/snapshots"))
-                        url = if (android.defaultConfig.versionName.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
-                    }
+                    val releasesRepoUrl =
+                        project.uri(project.layout.buildDirectory.dir("repos/releases"))
+                    val snapshotsRepoUrl =
+                        project.uri(project.layout.buildDirectory.dir("repos/snapshots"))
+                    url = if (android.defaultConfig.versionName.toString()
+                            .endsWith("SNAPSHOT")
+                    ) snapshotsRepoUrl else releasesRepoUrl
                 }
             }
+        }
 
     private fun getMavenSnapshotsUrl(): String {
         pluginExtension.snapshotsRepoUrl.run {
@@ -226,10 +236,12 @@ class AndroidMavenPubPlugin : Plugin<Project> {
             name.set("Android Common Utils Lib")
             description.set("Android Common Utils Library For HJ")
             url.set("https://github.com/hanlyjiang/lib_common_utils")
-            properties.set(mapOf(
+            properties.set(
+                mapOf(
                     "myProp" to "value",
                     "prop.with.dots" to "anotherValue"
-            ))
+                )
+            )
             licenses {
                 license {
                     name.set("The Apache License, Version 2.0")

@@ -1,6 +1,6 @@
 import org.gradle.api.publish.maven.MavenPom
-import io.hanlyjiang.gradle.android.AndroidMavenPubPlugin
-import io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension
+
+//import io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension
 
 plugins {
     id("com.android.library")
@@ -8,8 +8,14 @@ plugins {
     `maven-publish`
 //    kotlin("android")
 //    kotlin("android.extensions")
+
+    // 引入我们本地仓库中的gradle插件
+    id("com.github.hanlyjiang.android_maven_pub") version ("0.0.3") apply (false)
+
 }
 
+// 引入buildSrc中的插件
+//apply<io.hanlyjiang.gradle.android.AndroidMavenPubPlugin>()
 
 
 android {
@@ -29,7 +35,10 @@ android {
     buildTypes {
         getByName("release") {
             minifyEnabled(false)
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -47,19 +56,21 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
 }
 
-apply<AndroidMavenPubPlugin>()
+apply(plugin = "com.github.hanlyjiang.android_maven_pub")
 
-configure<AndroidMavenPubPluginExtension> {
+configure<io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension> {
     groupId.set("com.github.hanlyjiang")
     artifactId.set("android_common_utils")
     mavenPomAction.set(Action<MavenPom> {
         name.set("Android Common Utils Lib")
         description.set("Android Common Utils Library For HJ")
         url.set("https://github.com/hanlyjiang/lib_common_utils")
-        properties.set(mapOf(
+        properties.set(
+            mapOf(
                 "myProp" to "value",
                 "prop.with.dots" to "anotherValue"
-        ))
+            )
+        )
         licenses {
             license {
                 name.set("The Apache License, Version 2.0")

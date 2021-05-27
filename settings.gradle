@@ -1,3 +1,18 @@
+pluginManagement {
+    repositories {
+        maven {
+            url = "./local-plugin-repository"
+        }
+        // 优先从阿里云的镜像仓库加载插件
+        maven { setUrl("https://maven.aliyun.com/repository/gradle-plugin") }
+        maven { setUrl("https://maven.aliyun.com/repository/jcenter") }
+        maven { setUrl("https://maven.aliyun.com/repository/google") }
+        maven { setUrl("https://maven.aliyun.com/repository/gradle-plugin") }
+        maven { setUrl("https://maven.aliyun.com/repository/public") }
+        gradlePluginPortal()
+    }
+}
+
 include ':gradlePlugins'
 include ':lib_common_utils'
 include ':plugin_01'
