@@ -1,10 +1,12 @@
 plugins {
-    id("java")
-    id("java-gradle-plugin")
+    java
+    `java-gradle-plugin`
     id("org.jetbrains.kotlin.jvm").version("1.3.61")
     // 方便使用kotlin开发构建逻辑：
     // https://docs.gradle.org/current/userguide/kotlin_dsl.html#sec:kotlin-dsl_plugin
     `kotlin-dsl`
+    signing
+    `maven-publish`
 }
 
 group = "com.github.hanlyjiang"

@@ -42,7 +42,6 @@ public class SnackbarUtils {
     }
 
     /**
-     * /**
      * 以 ${@link Snackbar#LENGTH_SHORT} 的时长显示snackbar，内容为 msgResId 指定的字符串
      *
      * @param activityContext Context
@@ -56,7 +55,6 @@ public class SnackbarUtils {
     }
 
     /**
-     * /**
      * 以 ${@link Snackbar#LENGTH_SHORT} 的时长显示snackbar，内容为 msg
      *
      * @param activity Activity
@@ -69,7 +67,6 @@ public class SnackbarUtils {
     }
 
     /**
-     * /**
      * 以 ${@link Snackbar#LENGTH_SHORT} 的时长显示snackbar，内容为 msg
      *
      * @param fragment Fragment
@@ -81,7 +78,6 @@ public class SnackbarUtils {
     }
 
     /**
-     * /**
      * 以 ${@link Snackbar#LENGTH_SHORT}  的时长显示snackbar，内容为 msg
      *
      * @param fragment  fragment  Fragment

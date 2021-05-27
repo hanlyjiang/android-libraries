@@ -1,13 +1,10 @@
-package io.hanlyjiang.gradle
+package io.hanlyjiang.gradle.android
 
 import com.android.build.api.dsl.ApkExtension
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.logging.LogLevel
-import org.gradle.api.logging.Logger
-import org.gradle.api.logging.Logging
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.tasks.Copy
 import java.io.File
@@ -19,7 +16,6 @@ import java.io.File
  */
 class PluginAssetsCopyPlugin : Plugin<Project> {
 
-    private val logger: Logger = Logging.getLogger("PluginAssetsCopyPlugin")
 
     override fun apply(target: Project) {
         target.afterEvaluate {
@@ -28,7 +24,7 @@ class PluginAssetsCopyPlugin : Plugin<Project> {
     }
 
     private fun log(msg: String) {
-        logger.log(LogLevel.LIFECYCLE, ":+++> $msg")
+        logLifecycle(msg)
     }
 
     private fun initial(_root: Project, _subProject: Project) {

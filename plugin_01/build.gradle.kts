@@ -42,6 +42,6 @@ dependencies {
 
 }
 
-plugins.apply(io.hanlyjiang.gradle.PluginAssetsCopyPlugin::class.java)
+plugins.apply(io.hanlyjiang.gradle.android.PluginAssetsCopyPlugin::class.java)
 
 

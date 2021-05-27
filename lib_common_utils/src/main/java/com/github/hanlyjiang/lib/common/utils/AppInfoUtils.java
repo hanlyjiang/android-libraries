@@ -43,7 +43,7 @@ public class AppInfoUtils {
     /**
      * 获取应用程序版本名称信息
      *
-     * @param context
+     * @param context 上下文对象
      * @return 当前应用的版本名称 or null
      */
     @Nullable
@@ -60,7 +60,7 @@ public class AppInfoUtils {
     /**
      * 获取应用程序版号
      *
-     * @param context
+     * @param context 上下文对象
      * @return 当前应用的版本号 or 0
      */
     public static int getVersionCode(Context context) {
