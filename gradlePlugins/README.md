@@ -5,7 +5,7 @@
 包含几个Android Gradle 插件，具体查看插件对应的文档：
 
 * [AndroidMavenPubPlugin使用说明](doc/AndroidMavenPubPlugin使用说明.md) ： 简化 Android Library 发布到 Maven Center 仓库的配置；
-* [InlineApkToAssetsPlugin插件使用说明](InlineApkToAssetsPlugin使用说明.md) ： 自动拷贝 apk 到指定 Application 模块的 assets 目录，可简化插件化开发中内置插件或者测试过程中的手动操作；
+* [InlineApkToAssetsPlugin插件使用说明](doc/InlineApkToAssetsPlugin使用说明.md) ： 自动拷贝 apk 到指定 Application 模块的 assets 目录，可简化插件化开发中内置插件或者测试过程中的手动操作；
 
 ## 插件开发
 
