@@ -14,7 +14,7 @@ import java.io.File
  */
 class InlineApkToAssetsPlugin : Plugin<Project> {
 
-    lateinit var pluginExtension: InlineApkToAssetsPluginExtension
+    private lateinit var pluginExtension: InlineApkToAssetsPluginExtension
 
     override fun apply(project: Project) {
         pluginExtension = project.extensions.create("inline_apk_to_assets")

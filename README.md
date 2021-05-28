@@ -1,4 +1,4 @@
-# 项目介绍
+# About Project
 
-插件化框架学习及编写。
+Android Library Dev And Push 
 

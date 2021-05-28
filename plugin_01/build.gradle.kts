@@ -48,9 +48,16 @@ dependencies {
 
 }
 
+
+
 apply(plugin = "com.github.hanlyjiang.inline_apk_to_assets")
 
+configure<io.hanlyjiang.gradle.android.InlineApkToAssetsPluginExtension> {
+    hostProjectName.set("app")
+}
+//inline_apk_to_assets {
+//
+//}
 
-//plugins.apply(io.hanlyjiang.gradle.android.PluginAssetsCopyPlugin::class.java)
 
 
