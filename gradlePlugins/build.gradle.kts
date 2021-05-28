@@ -23,7 +23,12 @@ dependencies {
 // 用于指定所有的group
 group = "com.github.hanlyjiang"
 // 用于指定当前仓库本身的版本
-version = "0.0.4"
+// 多个插件分别指定插件的版本在本地测试时会有插件仓库自身和插件的版本匹配问题，我们在这里统一指定
+// 问题在于：
+// 1. 插件本身并不包括jar，仅仅是通过pom指向这个插件仓库的jar，如gradlePlugins.jar;
+// 2. 打包插件时及引入插件时，我们都不能单独为 gradlePlugins.jar 指定版本；
+// 3. 如果几个插件版本不同，指向的插件仓库的jar就会有问题；
+version = "0.0.5"
 
 
 // 多个插件时，gradlePlugin需要放置到pluginBundle前面，避免出现pluginBundle中找不到插件config的情况
@@ -33,13 +38,11 @@ gradlePlugin {
         create("AndroidMavenPubPlugin") {
             id = "com.github.hanlyjiang.android_maven_pub"
             implementationClass = "io.hanlyjiang.gradle.android.AndroidMavenPubPlugin"
-            version = "0.0.6"
         }
 
         create("InlineApkToAssetsPlugin") {
             id = "com.github.hanlyjiang.inline_apk_to_assets"
             implementationClass = "io.hanlyjiang.gradle.android.InlineApkToAssetsPlugin"
-            version = "0.0.4"
         }
     }
 }
@@ -59,18 +62,20 @@ pluginBundle {
             description = "Plugin for simplify publishing android library to maven center，" +
                     "visit https://github.com/hanlyjiang/android-libraries/blob/master/gradlePlugins/doc/AndroidMavenPubPlugin使用说明.md for how to use."
             tags = listOf("android", "library", "maven")
-            version = "0.0.5"
-            group = "com.github.hanlyjiang"
         }
 
         "InlineApkToAssetsPlugin" {
             displayName = "Copy App Module's APK files to HOST APP"
             description = "Plugin for auto copy plugin's apk to host app assets dir"
             tags = listOf("android", "library", "plugin")
-
-            group = "com.github.hanlyjiang"
         }
     }
+
+//    mavenCoordinates {
+//        groupId = "cn.hanlyjiang.gradle"
+//        artifactId = "gradlePlugins"
+//        version = "0.0.9"
+//    }
 }
 
 
@@ -79,7 +84,7 @@ publishing {
     repositories {
         maven {
             name = "projectLocalPluginRepo"
-            url = uri("./local-maven-repo/plugins")
+            url = uri(File(rootProject.rootDir, "local-maven-repo/plugins"))
         }
     }
 }

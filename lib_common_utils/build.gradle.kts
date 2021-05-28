@@ -10,7 +10,7 @@ plugins {
 //    kotlin("android.extensions")
 
     // 引入我们本地仓库中的gradle插件
-    id("com.github.hanlyjiang.android_maven_pub") version ("0.0.4") apply (false)
+    id("com.github.hanlyjiang.android_maven_pub") version ("0.0.5") apply (false)
 
 }
 

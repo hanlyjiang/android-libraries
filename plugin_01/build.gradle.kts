@@ -4,7 +4,7 @@ plugins {
     kotlin("android.extensions")
 
     // 引入我们的gradle插件
-    id("com.github.hanlyjiang.inline_apk_to_assets") version ("0.0.4") apply (false)
+    id("com.github.hanlyjiang.inline_apk_to_assets") version ("0.0.5") apply (false)
 }
 
 android {
