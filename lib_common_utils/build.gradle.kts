@@ -26,7 +26,7 @@ android {
         minSdkVersion(22)
         targetSdkVersion(30)
         versionCode(1)
-        versionName("1.0.1-SNAPSHOT")
+        versionName("1.0.2-SNAPSHOT")
 
         testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
         consumerProguardFiles("consumer-rules.pro")
@@ -60,7 +60,7 @@ apply(plugin = "com.github.hanlyjiang.android_maven_pub")
 
 configure<io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension> {
     groupId.set("com.github.hanlyjiang")
-    artifactId.set("android_common_utils")
+    artifactId.set("android-common-utils")
     projectLocalRepoPath.set("local-maven-repo")
     mavenPomAction.set(Action<MavenPom> {
         name.set("Android Common Utils Lib")
