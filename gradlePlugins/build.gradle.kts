@@ -33,11 +33,13 @@ gradlePlugin {
         create("AndroidMavenPubPlugin") {
             id = "com.github.hanlyjiang.android_maven_pub"
             implementationClass = "io.hanlyjiang.gradle.android.AndroidMavenPubPlugin"
+            version = "0.0.6"
         }
 
         create("InlineApkToAssetsPlugin") {
             id = "com.github.hanlyjiang.inline_apk_to_assets"
             implementationClass = "io.hanlyjiang.gradle.android.InlineApkToAssetsPlugin"
+            version = "0.0.4"
         }
     }
 }
@@ -57,7 +59,7 @@ pluginBundle {
             description = "Plugin for simplify publishing android library to maven center，" +
                     "visit https://github.com/hanlyjiang/android-libraries/blob/master/gradlePlugins/doc/AndroidMavenPubPlugin使用说明.md for how to use."
             tags = listOf("android", "library", "maven")
-            version = "0.0.4"
+            version = "0.0.5"
             group = "com.github.hanlyjiang"
         }
 
@@ -65,7 +67,7 @@ pluginBundle {
             displayName = "Copy App Module's APK files to HOST APP"
             description = "Plugin for auto copy plugin's apk to host app assets dir"
             tags = listOf("android", "library", "plugin")
-            version = "0.0.3"
+
             group = "com.github.hanlyjiang"
         }
     }
@@ -77,7 +79,7 @@ publishing {
     repositories {
         maven {
             name = "projectLocalPluginRepo"
-            url = uri("../local-plugin-repository")
+            url = uri("./local-maven-repo/plugins")
         }
     }
 }

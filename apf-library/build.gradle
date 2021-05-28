@@ -38,6 +38,8 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation("com.github.hanlyjiang:android_common_utils:1.0.2-SNAPSHOT")
+    implementation(project(":lib_common_utils"))
 }
 
 // Because the components are created only during the afterEvaluate phase, you must

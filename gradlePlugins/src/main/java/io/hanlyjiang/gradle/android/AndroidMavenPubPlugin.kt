@@ -3,6 +3,7 @@ package io.hanlyjiang.gradle.android
 import com.android.build.gradle.LibraryExtension
 import org.gradle.api.*
 import org.gradle.api.artifacts.repositories.PasswordCredentials
+import org.gradle.api.file.Directory
 import org.gradle.api.publish.Publication
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
@@ -154,15 +155,27 @@ class AndroidMavenPubPlugin : Plugin<Project> {
                     name = "ProjectLocal"
 
                     val releasesRepoUrl =
-                        project.uri(project.layout.buildDirectory.dir("repos/releases"))
+                        project.uri(projectLocalRepoPath(project).dir("release"))
                     val snapshotsRepoUrl =
-                        project.uri(project.layout.buildDirectory.dir("repos/snapshots"))
+                        project.uri(projectLocalRepoPath(project).dir("snapshots"))
                     url = if (android.defaultConfig.versionName.toString()
                             .endsWith("SNAPSHOT")
                     ) snapshotsRepoUrl else releasesRepoUrl
                 }
             }
         }
+
+    private fun projectLocalRepoPath(project: Project): Directory {
+        var dir: Directory? = project.rootProject.layout.buildDirectory.dir("mavenRepos").get()
+        if (pluginExtension.projectLocalRepoPath.isPresent) {
+            project.rootProject.run {
+                dir = objects.directoryProperty().apply {
+                    set(File(rootDir, pluginExtension.projectLocalRepoPath.get()))
+                }.get()
+            }
+        }
+        return dir!!
+    }
 
     private fun getMavenSnapshotsUrl(): String {
         pluginExtension.snapshotsRepoUrl.run {

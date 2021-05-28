@@ -1,4 +1,4 @@
-package cn.hanlyjiang.apf_library.utils;
+package com.github.hanlyjiang.lib.common.utils;
 
 import android.util.Log;
 

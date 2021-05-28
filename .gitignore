@@ -87,5 +87,5 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 
-local-plugin-repository/
+local-maven-repo/
 

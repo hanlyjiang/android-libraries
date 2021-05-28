@@ -44,5 +44,5 @@ dependencies {
     
     // 引入我们自己的库
     implementation(project(path = ":apf-library"))
-    implementation("com.github.hanlyjiang:android_common_utils:1.0.1-SNAPSHOT")
+//    implementation("com.github.hanlyjiang:android_common_utils:1.0.2-SNAPSHOT")
 }

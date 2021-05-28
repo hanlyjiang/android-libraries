@@ -1,12 +1,10 @@
 package cn.hanlyjiang.apf_library.proxy;
 
-
-import cn.hanlyjiang.apf_library.utils.RefInvoker;
+import com.github.hanlyjiang.lib.common.utils.RefInvoker;
 
 /**
  * Created by cailiming on 16/10/30.
  */
-
 public class HackSingleton {
     private static final String ClassName = "android.util.Singleton";
 

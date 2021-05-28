@@ -1,4 +1,4 @@
-package cn.hanlyjiang.apf_library.utils;
+package com.github.hanlyjiang.lib.common.utils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -25,8 +25,8 @@ public class RefInvoker {
      * 通过String获取Class对象
      *
      * @param clazzName 类名
-     * @return
-     * @throws ClassNotFoundException
+     * @return 类
+     * @throws ClassNotFoundException 类无法找到
      */
     public static Class<?> forName(String clazzName) throws ClassNotFoundException {
         Class<?> clazz = clazzCache.get(clazzName);
@@ -64,6 +64,7 @@ public class RefInvoker {
      * 调用单个参数构造函数
      *
      * @param className 类名
+     * @param params 构造函数参数
      * @return 对象 or null
      */
     public static Object newInstance(String className, Object params) {
@@ -74,6 +75,7 @@ public class RefInvoker {
      * 调用单个参数构造函数
      *
      * @param clazz 类名
+     * @param params 构造函数参数
      * @return 对象 or null
      */
     public static Object newInstance(Class clazz, Object params) {
@@ -195,7 +197,7 @@ public class RefInvoker {
      * @param methodName  方法名
      * @param paramTypes  参数类型数组
      * @param paramValues 参数值数组
-     * @return
+     * @return 方法调用的返回值
      */
     public static Object invokeMethod(Object target, Class clazz, String methodName, Class[] paramTypes,
                                       Object[] paramValues) {
@@ -232,7 +234,7 @@ public class RefInvoker {
      *
      * @param clazz      类
      * @param methodName 方法名
-     * @return
+     * @return 方法调用的返回值
      */
     public static Object invokeStaticMethod(Class clazz, String methodName) {
         return invokeMethod(null, clazz, methodName, null, null);
@@ -243,7 +245,7 @@ public class RefInvoker {
      *
      * @param className  类
      * @param methodName 方法名
-     * @return
+     * @return 方法调用的返回值
      */
     public static Object invokeStaticMethod(String className, String methodName) {
         return invokeMethod(null, className, methodName, null, null);
@@ -256,7 +258,7 @@ public class RefInvoker {
      * @param methodName  方法名
      * @param paramTypes  参数类型数组
      * @param paramValues 参数值数组
-     * @return
+     * @return 方法调用的返回值
      */
     public static Object invokeStaticMethod(Class clazz, String methodName, Class[] paramTypes,
                                             Object[] paramValues) {
@@ -271,7 +273,7 @@ public class RefInvoker {
      * @param methodName  方法名
      * @param paramTypes  参数类型数组
      * @param paramValues 参数值数组
-     * @return
+     * @return 方法调用的返回值
      */
     public static Object invokeStaticMethod(String className, String methodName, Class[] paramTypes,
                                             Object[] paramValues) {
@@ -284,7 +286,7 @@ public class RefInvoker {
      *
      * @param className 类名
      * @param fieldName 字段名称
-     * @return
+     * @return 字段值
      */
     @SuppressWarnings("rawtypes")
     public static Object getStaticField(String className, String fieldName) {
@@ -296,7 +298,7 @@ public class RefInvoker {
      *
      * @param clazz     类
      * @param fieldName 字段名称
-     * @return
+     * @return  字段值
      */
     @SuppressWarnings("rawtypes")
     public static Object getStaticField(Class clazz, String fieldName) {
@@ -309,7 +311,7 @@ public class RefInvoker {
      * @param target    目标对象，如果是获取静态字段，则可为null
      * @param className 类名
      * @param fieldName 字段名称
-     * @return
+     * @return 字段值
      */
     @SuppressWarnings("rawtypes")
     public static Object getField(Object target, String className, String fieldName) {
