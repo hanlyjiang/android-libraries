@@ -43,8 +43,8 @@ gradlePlugin {
 }
 
 pluginBundle {
-    website = "https://github.com/hanlyjiang/HJAPF"
-    vcsUrl = "https://github.com/hanlyjiang/HJAPF.git"
+    website = "https://github.com/hanlyjiang/android-libraries/blob/master/gradlePlugins"
+    vcsUrl = "https://github.com/hanlyjiang/android-libraries.git"
     //单个插件时，使用这里的定义
     //    tags = listOf("android", "library", "maven")
 
@@ -54,9 +54,10 @@ pluginBundle {
 
         "AndroidMavenPubPlugin" {
             displayName = "Android maven publish plugin"
-            description = "Plugin for simplify publishing android library to maven center"
+            description = "Plugin for simplify publishing android library to maven center，" +
+                    "visit https://github.com/hanlyjiang/android-libraries/blob/master/gradlePlugins/doc/AndroidMavenPubPlugin使用说明.md for how to use."
             tags = listOf("android", "library", "maven")
-            version = "0.0.3"
+            version = "0.0.4"
             group = "com.github.hanlyjiang"
         }
 

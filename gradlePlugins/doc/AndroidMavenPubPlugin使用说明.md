@@ -21,7 +21,7 @@ plugins {
     // 引入maven-publish插件
     `maven-publish`
     // 引入 android_maven_pub 插件，注意这里设置 apply 为 false，表示引入但是不应用，我们需要放在android配置段定义之后再应用
-    id("com.github.hanlyjiang.android_maven_pub") version ("0.0.3") apply (false)
+    id("com.github.hanlyjiang.android_maven_pub") version ("0.0.4") apply (false)
 }
 ```
 

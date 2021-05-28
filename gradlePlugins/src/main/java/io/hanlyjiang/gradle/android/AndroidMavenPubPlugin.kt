@@ -34,7 +34,7 @@ class AndroidMavenPubPlugin : Plugin<Project> {
             1. 引入插件;
             2. 配置(gradle配置及maven仓库配置）；
             3. 执行任务；
-            请参考使用文档：https://github.com/hanlyjiang
+            请参考使用文档：https://github.com/hanlyjiang/android-libraries/blob/master/gradlePlugins/doc/AndroidMavenPubPlugin%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.md
             ------ ------ ------ ------ ------ ------
         """
     }
