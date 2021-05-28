@@ -76,7 +76,7 @@ pluginBundle {
 publishing {
     repositories {
         maven {
-            name = "localPluginRepository"
+            name = "projectLocalPluginRepo"
             url = uri("../local-plugin-repository")
         }
     }

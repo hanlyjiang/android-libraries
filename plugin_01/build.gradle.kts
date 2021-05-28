@@ -3,7 +3,7 @@ plugins {
     kotlin("android")
     kotlin("android.extensions")
 
-    // 引入我们本地仓库中的gradle插件
+    // 引入我们的gradle插件
     id("com.github.hanlyjiang.inline_apk_to_assets") version ("0.0.4") apply (false)
 }
 
