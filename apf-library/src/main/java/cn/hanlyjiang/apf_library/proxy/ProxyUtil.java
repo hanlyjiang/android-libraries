@@ -17,7 +17,7 @@ public class ProxyUtil {
 	 * 创建一个代理对象
 	 * @param target 目标-即需要代理的对象
 	 * @param delegate 代理处理逻辑
-	 * @return
+	 * @return 代理对象
 	 */
 	public static Object createProxy(Object target, MethodDelegate delegate) {
 		Class<?> clazz = target.getClass();

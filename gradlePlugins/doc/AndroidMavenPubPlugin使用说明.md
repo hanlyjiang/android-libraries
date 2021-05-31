@@ -12,6 +12,8 @@
 
 在需要使用的模块的build脚本中，引入我们的插件，同时引入 `maven-publish` 插件和` signing` 插件。
 
+#### kotlin.kts 脚本写法
+
 ```kotlin
 plugins {
     id("com.android.library")
@@ -21,13 +23,28 @@ plugins {
     // 引入maven-publish插件
     `maven-publish`
     // 引入 android_maven_pub 插件，注意这里设置 apply 为 false，表示引入但是不应用，我们需要放在android配置段定义之后再应用
-    id("com.github.hanlyjiang.android_maven_pub") version ("0.0.4") apply (false)
+    id("com.github.hanlyjiang.android_maven_pub") version ("0.0.5") apply (false)
+}
+```
+
+
+
+#### groovy 的写法
+
+```groovy
+plugins {
+    id 'com.android.library'
+    id 'signing'
+    id 'maven-publish'
+    id("com.github.hanlyjiang.android_maven_pub") version("0.0.5") apply(false)
 }
 ```
 
 ### 配置 gradle 
 
-在引入  AndroidMavenPubPlugin 插件之后，我们可以对插件进行配置
+在引入  AndroidMavenPubPlugin 插件之后，我们可以对插件进行配置。 建议将脚本转换为 kotlin dsl 的写法，能有对应的自动提示；
+
+#### kotlin dsl 写法
 
 ```kotlin
 android {
@@ -71,6 +88,41 @@ configure<io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension> {
     })
 }
 ```
+#### groovy 脚本写法
+```groovy
+apply plugin: "com.github.hanlyjiang.android_maven_pub"
+
+android_maven_pub {
+    groupId.set("com.github.hanlyjiang")
+    artifactId.set("android-common-utils")
+    mavenPomAction.set({ pom ->
+        pom.with {
+            name.set('HJ Android Plugin Framework')
+            description.set("A Android Plugin Framework")
+            url.set("https://github.com/hanlyjiang/apf-library")
+            licenses {
+                license {
+                    name = 'The Apache Software License, Version 2.0'
+                    url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                }
+            }
+            developers {
+                developer {
+                    id = 'hanlyjiang'
+                    name = 'hanly jiang'
+                    email = 'hanlyjiang@outlook.com'
+                }
+            }
+            scm {
+                connection = 'https://github.com/hanlyjiang/apf-library'
+                developerConnection = 'https://github.com/hanlyjiang/apf-library.git'
+                url = 'https://github.com/hanlyjiang/apf-library'
+            }
+        }
+    } as Action<MavenPom>)
+}
+
+```
 
 > ⚠️**注意**： 
 >
@@ -113,7 +165,7 @@ signing.secretKeyRingFile=导出的 gpg 文件路径 如： /Users/hanlyjiang/.g
 | Task Name                                         | Description                                                  |
 | ------------------------------------------------- | ------------------------------------------------------------ |
 | publish                                           | 等于执行了下面的所有任务                                     |
-| publishAllPublicationsToProjectLocalRepository    | 将由此项目产生的所有Maven库发布到 ProjectLocal 存储库。 ProjectLocal 定义为当前项目的 build 目录的 repos 目录中，有两个子目录 `snapshots`及 `release`， 方便查看将要发布的生成物； |
+| publishAllPublicationsToProjectLocalRepository    | 将由此项目产生的所有Maven库发布到 ProjectLocal 存储库。 ProjectLocal 定义为当前项目的 build 目录的 `mavenRepos` 目录中，有两个子目录 `snapshots`及 `release`， 方便查看将要发布的生成物及进行本地测试； |
 | publishAllPublicationsToSonartypeRepository       | 将由此项目产生的所有 Maven 库发布到 Sonartype 存储库。       |
 | publishReleasePublicationToMavenLocal             | 将由此项目产生的名为`release`的 Maven库发布到本机 maven 缓存库。 |
 | publishReleasePublicationToProjectLocalRepository | 将由此项目产生的名为`release`的 Maven库发布到本机 ProjectLocal 库。 |
@@ -131,16 +183,17 @@ signing.secretKeyRingFile=导出的 gpg 文件路径 如： /Users/hanlyjiang/.g
 
 ## 可配置项目说明
 
-| 配置字段           | 说明                                                   | 默认值                                                       |
-| ------------------ | ------------------------------------------------------ | ------------------------------------------------------------ |
-| groupId            | maven 的 group id，需要设置为自己申请的                | 无默认值-必需填写                                            |
-| artifactId         | library 的 id                                          | 无默认值-必需填写                                            |
-| mavenPomAction     | 用于配置 pom 信息的字段                                | 无默认值-必需填写                                            |
-| fromAndroidPubName | 表示发布的 android 的 aar 的类型，`release` 或 `debug` | `release`                                                    |
-| releasesRepoUrl    | maven release 仓库的上传地址                           | `https://oss.sonatype.org/service/local/staging/deploy/maven2` |
-| snapshotsRepoUrl   | maven snapshots 仓库的上传地址                         | `https://oss.sonatype.org/content/repositories/snapshots/`   |
-| includeSourceJar   | 是否上传源码                                           | `true`                                                       |
-| includeJavadocJar  | 是否上传 javadoc                                       | `true`                                                       |
+| 配置字段             | 说明                                                         | 默认值                                                       |
+| -------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| groupId              | maven 的 group id，需要设置为自己申请的                      | 无默认值-必需填写                                            |
+| artifactId           | library 的 id                                                | 无默认值-必需填写                                            |
+| mavenPomAction       | 用于配置 pom 信息的字段                                      | 无默认值-必需填写                                            |
+| fromAndroidPubName   | 表示发布的 android 的 aar 的类型，`release` 或 `debug`       | `release`                                                    |
+| releasesRepoUrl      | maven release 仓库的上传地址                                 | `https://oss.sonatype.org/service/local/staging/deploy/maven2` |
+| snapshotsRepoUrl     | maven snapshots 仓库的上传地址                               | `https://oss.sonatype.org/content/repositories/snapshots/`   |
+| includeSourceJar     | 是否上传源码                                                 | `true`                                                       |
+| includeJavadocJar    | 是否上传 javadoc                                             | `true`                                                       |
+| projectLocalRepoPath | 本地仓库的目录，相对于rootProject的目录，如：`local-maven-repo` | 默认位于根项目的 `build/mavenRepos` 目录中                   |
 
 
 ## 常见问题
@@ -159,6 +212,63 @@ android {
         targetSdkVersion(30)
         versionCode(1)
         versionName("1.0.0-SNAPSHOT")
+    }
+}
+```
+
+### 发布到本地并进行测试
+
+首先我们通过 `projectLocalRepoPath` 来改变 ProjectLocal 仓库的目录，下面的示例中将其设置为 rootProject 的 local-maven-repo 目录中
+
+```kotlin
+apply(plugin = "com.github.hanlyjiang.android_maven_pub")
+
+configure<io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension> {
+    groupId.set("com.github.hanlyjiang")
+    artifactId.set("android-common-utils")
+    projectLocalRepoPath.set("local-maven-repo")
+	// ...
+}
+```
+
+接下来我们定义本地的 Repo ，见下方名为 `ProjectLocal-Snapshots` 及 `ProjectLocal-Release` 的仓库。
+
+```kotlin
+allprojects {
+    repositories {
+        maven { setUrl("https://maven.aliyun.com/repository/jcenter") }
+        maven { setUrl("https://maven.aliyun.com/repository/google") }
+        maven { setUrl("https://maven.aliyun.com/repository/gradle-plugin") }
+        maven { setUrl("https://maven.aliyun.com/repository/public") }
+        // 定义本地repo路径
+        maven {
+            name = "ProjectLocal-Snapshots"
+            setUrl(File(rootProject.rootDir, "local-maven-repo${File.separator}snapshots"))
+        }
+        maven {
+            name = "ProjectLocal-Release"
+            setUrl(File(rootProject.rootDir, "local-maven-repo${File.separator}release"))
+        }
+        maven {
+            name = "Sonatype-Snapshots"
+            setUrl("https://oss.sonatype.org/content/repositories/snapshots")
+//            setUrl("https://s01.oss.sonatype.org/content/repositories/snapshots")
+            // snapshot可以不用用户名密码
+            // 查看自己的snapshot版本： https://oss.sonatype.org/content/repositories/snapshots/com/github/hanlyjiang/
+            credentials(PasswordCredentials::class.java) {
+                username = property("ossrhUsername").toString()
+                password = property("ossrhPassword").toString()
+            }
+        }
+        maven {
+            name = "Sonatype-Staging"
+            setUrl("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+//            setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            credentials(PasswordCredentials::class.java) {
+                username = property("ossrhUsername").toString()
+                password = property("ossrhPassword").toString()
+            }
+        }
     }
 }
 ```

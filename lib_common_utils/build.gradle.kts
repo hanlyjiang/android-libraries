@@ -17,7 +17,6 @@ plugins {
 // 引入buildSrc中的插件
 //apply<io.hanlyjiang.gradle.android.AndroidMavenPubPlugin>()
 
-
 android {
     compileSdkVersion(30)
     buildToolsVersion("30.0.3")
@@ -26,7 +25,7 @@ android {
         minSdkVersion(22)
         targetSdkVersion(30)
         versionCode(1)
-        versionName("1.0.2-SNAPSHOT")
+        versionName("1.0.3-SNAPSHOT")
 
         testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
         consumerProguardFiles("consumer-rules.pro")

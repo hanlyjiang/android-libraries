@@ -28,7 +28,7 @@ group = "com.github.hanlyjiang"
 // 1. 插件本身并不包括jar，仅仅是通过pom指向这个插件仓库的jar，如gradlePlugins.jar;
 // 2. 打包插件时及引入插件时，我们都不能单独为 gradlePlugins.jar 指定版本；
 // 3. 如果几个插件版本不同，指向的插件仓库的jar就会有问题；
-version = "0.0.5"
+version = "0.0.7"
 
 
 // 多个插件时，gradlePlugin需要放置到pluginBundle前面，避免出现pluginBundle中找不到插件config的情况

@@ -45,7 +45,7 @@ class AndroidMavenPubPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         logLifecycle(USAGE)
         logLifecycle("Apply")
-        pluginExtension = project.extensions.create("android_pom")
+        pluginExtension = project.extensions.create("android_maven_pub")
         // 注册一个帮助任务
         project.tasks.register("${AndroidMavenPubPlugin::class.java.simpleName}-help") {
             group = TaskGroup

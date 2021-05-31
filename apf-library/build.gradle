@@ -1,8 +1,8 @@
 plugins {
     id 'com.android.library'
-//    id 'maven'
     id 'signing'
     id 'maven-publish'
+    id("com.github.hanlyjiang.android_maven_pub") version("0.0.7") apply(false)
 }
 
 def VERSION = "1.0.2"
@@ -38,113 +38,39 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation("com.github.hanlyjiang:android_common_utils:1.0.2-SNAPSHOT")
-    implementation(project(":lib_common_utils"))
+    implementation("com.github.hanlyjiang:android-common-utils:1.0.3-SNAPSHOT")
+//    implementation(project(":lib_common_utils"))
 }
 
-// Because the components are created only during the afterEvaluate phase, you must
-// configure your publications using the afterEvaluate() lifecycle method.
-afterEvaluate {
-    publishing {
-        repositories {
-            maven {
-                name "local"
-                // change to point to your repo, e.g. http://my.org/repo
-                url = "$buildDir/repo"
-            }
-            maven {
-                name "sonartype-Center"
-                // change to point to your repo, e.g. http://my.org/repo
-                url = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
-              //  https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/
-                credentials {
-                    username = ossrhUsername
-                    password = ossrhPassword
-                }
-            }
+apply plugin: "com.github.hanlyjiang.android_maven_pub"
 
-            maven {
-                name "sonatype-Snapshots"
-                // change to point to your repo, e.g. http://my.org/repo
-                url = "https://oss.sonatype.org/content/repositories/snapshots/"
-                credentials {
-                    username = ossrhUsername
-                    password = ossrhPassword
+android_maven_pub {
+    groupId.set("com.github.hanlyjiang")
+    artifactId.set("apf-library")
+    mavenPomAction.set({ pom ->
+        pom.with {
+            name.set('HJ Android Plugin Framework')
+            description.set("A Android Plugin Framework")
+            url.set("https://github.com/hanlyjiang/apf-library")
+            licenses {
+                license {
+                    name = 'The Apache Software License, Version 2.0'
+                    url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                 }
+            }
+            developers {
+                developer {
+                    id = 'hanlyjiang'
+                    name = 'hanly jiang'
+                    email = 'hanlyjiang@outlook.com'
+                }
+            }
+            scm {
+                connection = 'https://github.com/hanlyjiang/apf-library'
+                developerConnection = 'https://github.com/hanlyjiang/apf-library.git'
+                url = 'https://github.com/hanlyjiang/apf-library'
             }
         }
-        publications {
-            // Creates a Maven publication called "release".
-            release(MavenPublication) {
-                // Applies the component for the release build variant.
-                from components.release
-
-                // You can then customize attributes of the publication as shown below.
-                groupId = 'com.github.hanlyjiang'
-                artifactId = 'apf-library'
-                version = VERSION
-                pom {
-                    name = 'HJ Android Plugin Framework'
-                    description = 'A Android Plugin Framework'
-                    url = 'https://github.com/hanlyjiang/apf-library'
-                    licenses {
-                        license {
-                            name='The Apache Software License, Version 2.0'
-                            url='http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        }
-                    }
-                    developers {
-                        developer {
-                            id = 'hanlyjiang'
-                            name = 'hanly jiang'
-                            email = 'hanlyjiang@outlook.com'
-                        }
-                    }
-                    scm {
-                        connection = 'https://github.com/hanlyjiang/apf-library'
-                        developerConnection = 'https://github.com/hanlyjiang/apf-library.git'
-                        url = 'https://github.com/hanlyjiang/apf-library'
-                    }
-                }
-            }
-            // Creates a Maven publication called “debug”.
-            debug(MavenPublication) {
-                // Applies the component for the debug build variant.
-                from components.debug
-
-                groupId = 'com.github.hanlyjiang'
-                artifactId = 'apf_library-debug'
-                version = String.format("%s-SNAPSHOT",VERSION)
-
-                pom {
-                    name = 'HJ Android Plugin Framework'
-                    description = 'A Android Plugin Framework'
-                    url = 'https://github.com/hanlyjiang/apf-library'
-                    licenses {
-                        license {
-                            name='The Apache Software License, Version 2.0'
-                            url='http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        }
-                    }
-                    developers {
-                        developer {
-                            id = 'hanlyjiang'
-                            name = 'hanly jiang'
-                            email = 'hanlyjiang@outlook.com'
-                        }
-                    }
-                    scm {
-                        connection = 'https://github.com/hanlyjiang/apf-library'
-                        developerConnection = 'https://github.com/hanlyjiang/apf-library.git'
-                        url = 'https://github.com/hanlyjiang/apf-library'
-                    }
-                }
-            }
-        }
-
-        signing {
-            sign publishing.publications.release , publishing.publications.debug
-        }
-    }
+    } as Action<MavenPom>)
 }
 
