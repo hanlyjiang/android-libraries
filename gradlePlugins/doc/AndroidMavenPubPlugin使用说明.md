@@ -211,6 +211,28 @@ configure<io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension> {
 
 ## 使用步骤
 
+> 注意插件需要使用 gradle build-tools 的4.2.1 版本
+
+```kotlin
+buildscript {
+    repositories {
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.2.1'
+    }
+}
+```
+
+建议使用 gradle 6.7.1 及以上版本
+`gradle-wrapper.properties`:
+```properties
+distributionBase=GRADLE_USER_HOME
+distributionPath=wrapper/dists
+zipStoreBase=GRADLE_USER_HOME
+zipStorePath=wrapper/dists
+distributionUrl=https\://services.gradle.org/distributions/gradle-6.7.1-all.zip
+```
+
 ### 引入插件
 
 在需要使用的模块的build脚本中，引入我们的插件，同时引入 `maven-publish` 插件和` signing` 插件。
@@ -226,7 +248,7 @@ plugins {
     // 引入maven-publish插件
     `maven-publish`
     // 引入 android_maven_pub 插件，注意这里设置 apply 为 false，表示引入但是不应用，我们需要放在android配置段定义之后再应用
-    id("com.github.hanlyjiang.android_maven_pub") version ("0.0.5") apply (false)
+    id("com.github.hanlyjiang.android_maven_pub") version ("0.0.9") apply (false)
 }
 ```
 
@@ -239,7 +261,7 @@ plugins {
     id 'com.android.library'
     id 'signing'
     id 'maven-publish'
-    id("com.github.hanlyjiang.android_maven_pub") version("0.0.5") apply(false)
+    id("com.github.hanlyjiang.android_maven_pub") version("0.0.9") apply(false)
 }
 ```
 

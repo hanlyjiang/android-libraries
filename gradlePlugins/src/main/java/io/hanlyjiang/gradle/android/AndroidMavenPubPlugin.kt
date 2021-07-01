@@ -234,7 +234,7 @@ class AndroidMavenPubPlugin : Plugin<Project> {
                     isFailOnError = false
 
                     (this as StandardJavadocDocletOptions).apply {
-//                        addStringOption("Xdoclint:none")
+                        addStringOption("doclint:none")
                         links?.add("https://developer.android.google.cn/reference/")
                         links?.add("http://docs.oracle.com/javase/8/docs/api/")
                     }
