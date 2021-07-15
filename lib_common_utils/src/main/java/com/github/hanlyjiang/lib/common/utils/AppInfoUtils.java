@@ -1,12 +1,18 @@
 package com.github.hanlyjiang.lib.common.utils;
 
+import android.app.ActivityManager;
+import android.app.Application;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 
 import androidx.annotation.Nullable;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * APP 信息获取工具类
@@ -15,6 +21,31 @@ import androidx.annotation.Nullable;
  * @version 1.0
  */
 public class AppInfoUtils {
+
+    /**
+     * 获取当前进程名称
+     *
+     * @param context Context
+     * @return 进程名称 or null
+     */
+    @Nullable
+    public static String getProcessName(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            return Application.getProcessName();
+        }
+        int pid = android.os.Process.myPid();
+        ActivityManager ams = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if (ams == null) {
+            return null;
+        }
+        List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = ams.getRunningAppProcesses();
+        for (ActivityManager.RunningAppProcessInfo info : runningAppProcesses) {
+            if (info.pid == pid) {
+                return info.processName;
+            }
+        }
+        return null;
+    }
 
     /**
      * 获取应用程序名称

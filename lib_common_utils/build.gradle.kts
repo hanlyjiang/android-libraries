@@ -10,7 +10,7 @@ plugins {
 //    kotlin("android.extensions")
 
     // 引入我们本地仓库中的gradle插件
-    id("com.github.hanlyjiang.android_maven_pub") version ("0.0.5") apply (false)
+    id("com.github.hanlyjiang.android_maven_pub") version ("0.0.9") apply (false)
 
 }
 
@@ -25,7 +25,7 @@ android {
         minSdkVersion(22)
         targetSdkVersion(30)
         versionCode(1)
-        versionName("1.0.3-SNAPSHOT")
+        versionName("1.0.4-SNAPSHOT")
 
         testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
         consumerProguardFiles("consumer-rules.pro")
@@ -64,11 +64,11 @@ configure<io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension> {
     mavenPomAction.set(Action<MavenPom> {
         name.set("Android Common Utils Lib")
         description.set("Android Common Utils Library For HJ")
-        url.set("https://github.com/hanlyjiang/lib_common_utils")
+        url.set("https://github.com/hanlyjiang/android-libraries/")
         properties.set(
             mapOf(
-                "myProp" to "value",
-                "prop.with.dots" to "anotherValue"
+                "cvs_revision" to getGitRevision(),
+                "cvs_branch" to getGitBranch()
             )
         )
         licenses {
@@ -85,10 +85,47 @@ configure<io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension> {
             }
         }
         scm {
-            connection.set("scm:git:git://github.com/hanlyjiang/lib_common_utils.git")
-            developerConnection.set("scm:git:ssh://github.com/hanlyjiang/lib_common_utils.git")
-            url.set("https://github.com/hanlyjiang/lib_common_utils")
+            connection.set("scm:git:git://github.com/hanlyjiang/android-libraries.git")
+            developerConnection.set("scm:git:ssh://github.com/hanlyjiang/android-libraries.git")
+            url.set("https://github.com/hanlyjiang/android-libraries")
         }
     })
 }
 
+tasks.create("showGitRepoInfo") {
+    group = "help"
+    doLast {
+        println("${getGitBranch()}/${getGitRevision()}")
+    }
+}
+
+fun String.execute(): String {
+    val process = Runtime.getRuntime().exec(this)
+    return with(process.inputStream.bufferedReader()) {
+        readText()
+    }
+}
+
+/**
+ * Get git revision with work tree status
+ *
+ * @return
+ */
+fun getGitRevision(): String {
+    val rev = "git rev-parse --short HEAD".execute().trim()
+    val stat = "git diff --stat".execute().trim()
+    return if (stat.isEmpty()) {
+        rev
+    } else {
+        "$rev-dirty"
+    }
+}
+
+/**
+ * Get git branch name
+ *
+ * @return
+ */
+fun getGitBranch(): String {
+    return "git rev-parse --abbrev-ref HEAD".execute().trim()
+}

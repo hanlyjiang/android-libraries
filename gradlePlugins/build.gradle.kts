@@ -17,6 +17,7 @@ dependencies {
     // 添加android相关build tools依赖，以便使用 android gradle 相关的API
 //    implementation("com.android.tools.build:gradle:$android_gradle_build_version")
     compileOnly("com.android.tools.build:gradle:4.1.3")
+//    compileOnly("com.android.tools.build:gradle-api:4.1.3")
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib:${project.properties["kotlin_version"].toString()}")
 }
 
