@@ -10,9 +10,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * APP 信息获取工具类
@@ -21,6 +21,23 @@ import java.util.function.Consumer;
  * @version 1.0
  */
 public class AppInfoUtils {
+
+    /**
+     * 当前APP中任务栈中 Activity 计数
+     *
+     * @param context Context
+     * @return 当前APP中任务栈中 Activity 计数 或 -1 - 没有获取到
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public static int getAppTasksActivityCount(Context context) {
+        ActivityManager ams = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.AppTask> appTasks = ams.getAppTasks();
+        int count = -1;
+        for (ActivityManager.AppTask task : appTasks) {
+            count += task.getTaskInfo().numActivities;
+        }
+        return count;
+    }
 
     /**
      * 获取当前进程名称

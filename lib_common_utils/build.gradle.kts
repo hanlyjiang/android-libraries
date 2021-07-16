@@ -6,8 +6,8 @@ plugins {
     id("com.android.library")
     id("signing")
     `maven-publish`
-//    kotlin("android")
-//    kotlin("android.extensions")
+    kotlin("android")
+    kotlin("android.extensions")
 
     // 引入我们本地仓库中的gradle插件
     id("com.github.hanlyjiang.android_maven_pub") version ("0.0.9") apply (false)
@@ -48,11 +48,11 @@ android {
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("com.google.android.material:material:1.2.1")
-    testImplementation("junit:junit:4.+")
-    androidTestImplementation("androidx.test.ext:junit:1.1.2")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
+    implementation("androidx.appcompat:appcompat:1.3.0")
+    implementation("com.google.android.material:material:1.4.0")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }
 
 apply(plugin = "com.github.hanlyjiang.android_maven_pub")

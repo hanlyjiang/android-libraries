@@ -87,7 +87,7 @@ public class LogUtil {
         }
     }
 
-    public static interface LogHandler {
+    public interface LogHandler {
 
         void publish(String tag, int level, String message);
 
