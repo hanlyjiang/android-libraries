@@ -2,13 +2,15 @@ package cn.hanlyjiang.hjapf.hook.activity;
 
 import android.os.Build;
 
+import com.github.hanlyjiang.lib.common.utils.LogUtil;
+import com.github.hanlyjiang.lib.common.utils.RefInvoker;
+
 import java.lang.reflect.Method;
 
 import cn.hanlyjiang.apf_library.proxy.HackSingleton;
 import cn.hanlyjiang.apf_library.proxy.MethodDelegate;
 import cn.hanlyjiang.apf_library.proxy.ProxyUtil;
-import cn.hanlyjiang.apf_library.utils.LogUtil;
-import cn.hanlyjiang.apf_library.utils.RefInvoker;
+
 
 /**
  * Hook ActivityManager

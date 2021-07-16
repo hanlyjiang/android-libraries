@@ -11,8 +11,9 @@ import android.os.IBinder;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import cn.hanlyjiang.apf_library.utils.LogUtil;
-import cn.hanlyjiang.apf_library.utils.RefInvoker;
+import com.github.hanlyjiang.lib.common.utils.LogUtil;
+import com.github.hanlyjiang.lib.common.utils.RefInvoker;
+
 
 /**
  * 直接 Hook Activity 的 Instrumentation 字段

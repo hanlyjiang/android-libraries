@@ -20,7 +20,10 @@ android {
     buildTypes {
         getByName("release") {
             minifyEnabled(false)
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -41,8 +44,10 @@ dependencies {
     testImplementation("junit:junit:4.+")
     androidTestImplementation("androidx.test.ext:junit:1.1.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
-    
+
     // 引入我们自己的库
     implementation(project(path = ":apf-library"))
+    implementation(project(path = ":lib_common_utils"))
+
 //    implementation("com.github.hanlyjiang:android_common_utils:1.0.2-SNAPSHOT")
 }
