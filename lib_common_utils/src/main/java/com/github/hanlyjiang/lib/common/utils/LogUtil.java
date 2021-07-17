@@ -7,10 +7,10 @@ import android.util.Log;
  */
 public class LogUtil {
 
-    public static final String TAG = "HJ_AFP";
+    private static String TAG = "HJ_AFP";
     private static boolean isEnable = false;
 
-    private static final int stackLevel = 4;
+    private static int stackLevel = 4;
 
     public static void v(Object... msg) {
         printLog(Log.VERBOSE, msg);
@@ -107,4 +107,23 @@ public class LogUtil {
     public static void setLogHandler(LogHandler logHandler) {
         DEFAULT_LOGHANDLER = logHandler;
     }
+
+    /**
+     * 设置标签
+     *
+     * @param tag 标签
+     */
+    public static void setTag(String tag) {
+        TAG = tag;
+    }
+
+    /**
+     * 设置日志级别，默认为 {@link Log#INFO }
+     *
+     * @param level 参考{@link Log#INFO } 等
+     */
+    public static void setStackLevel(int level) {
+        stackLevel = level;
+    }
+
 }
