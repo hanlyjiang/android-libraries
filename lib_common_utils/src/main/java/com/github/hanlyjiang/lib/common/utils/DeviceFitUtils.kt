@@ -33,7 +33,7 @@ object DeviceFitUtils {
     /**
      * Get miui version code
      *
-     * @return -1 - 非MIUI设备/获取失败； > 0 正常版本号，如： 12
+     * @return -1 - 非MIUI设备/获取失败； > 0 正常版本号，如： 11 - 对应 MIUI12
      */
     fun getMiuiVersionCode(): Int {
         getSystemProperties(KEY_MIUI_VERSION_CODE).run {
@@ -48,7 +48,7 @@ object DeviceFitUtils {
     /**
      * Get miui version name
      *
-     * @return "" - 非MIUI设备/获取失败； 正常版本名称，如： V125
+     * @return "" - 非MIUI设备/获取失败； 正常版本名称，如： V125 - 对应 MIUI 12.5
      */
     fun getMiuiVersionName(): String {
         return getSystemProperties(KEY_MIUI_VERSION_NAME)
