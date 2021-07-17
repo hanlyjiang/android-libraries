@@ -21,7 +21,14 @@ object DeviceFitUtils {
                 || getSystemProperties(KEY_MIUI_VERSION_NAME).isNotBlank()
     }
 
-    private fun getSystemProperties(key: String, defaultValue: String = ""): String {
+    /**
+     * Get system properties
+     *
+     * @param key key
+     * @param defaultValue 默认值
+     * @return
+     */
+    fun getSystemProperties(key: String, defaultValue: String = ""): String {
         return RefInvoker.invokeStaticMethod(
             CLASS_SYSTEM_PROPERTIES,
             "get",

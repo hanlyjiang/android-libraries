@@ -1,7 +1,9 @@
 package com.github.hanlyjiang.lib.common.utils;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
+import android.app.Service;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -21,6 +23,8 @@ import java.util.List;
  * @version 1.0
  */
 public class AppInfoUtils {
+
+
 
     /**
      * 当前APP中任务栈中 Activity 计数
