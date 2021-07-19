@@ -1,13 +1,14 @@
 package com.github.hanlyjiang.lib.common.iface
 
 import android.app.Activity
+import android.content.ComponentCallbacks2
 
 /**
  * On app status callback
  *
  * @constructor Create empty On app status callback
  */
-interface OnAppStatusCallback {
+interface OnAppStatusCallback : ComponentCallbacks2 {
 
     /**
      * On app to foreground

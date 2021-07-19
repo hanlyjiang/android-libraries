@@ -1,9 +1,12 @@
 package com.github.hanlyjiang.lib.common.helper
 
 import android.app.Activity
-import android.os.Build
+import android.content.ComponentCallbacks2
+import android.content.Context
+import android.content.res.Configuration
 import com.github.hanlyjiang.lib.common.iface.OnAppStatusCallback
-import com.github.hanlyjiang.lib.common.utils.AppInfoUtils
+import com.github.hanlyjiang.lib.common.utils.ContextUtils
+import com.github.hanlyjiang.lib.common.utils.LogUtil
 import com.github.hanlyjiang.lib.common.wrapper.ActivityLifecycleCallbacksWrapper
 
 /**
@@ -11,11 +14,27 @@ import com.github.hanlyjiang.lib.common.wrapper.ActivityLifecycleCallbacksWrappe
  * @author hanlyjiang 2021/7/15 11:46 下午
  * @version 1.0
  */
-object AppStatusHelper : ActivityLifecycleCallbacksWrapper() {
+object AppStatusHelper : ActivityLifecycleCallbacksWrapper(), ComponentCallbacks2 {
 
     private var mActivityNum = 0
 
-    private val mStatusCallback = mutableListOf<OnAppStatusCallback>()
+    private val mStatusCallbacks = mutableListOf<OnAppStatusCallback>()
+
+    private var initialed = false
+
+    /**
+     * Init ，必须初始化才有作用
+     *
+     * @param context Context
+     */
+    fun init(context: Context): AppStatusHelper {
+        ContextUtils.getApplication(context)?.run {
+            registerActivityLifecycleCallbacks(this@AppStatusHelper)
+            registerComponentCallbacks(this@AppStatusHelper)
+            initialed = true
+        }
+        return this
+    }
 
     /**
      * Registry app status callback，注意：需要自行管理注册及注销，以避免内存泄漏
@@ -23,8 +42,11 @@ object AppStatusHelper : ActivityLifecycleCallbacksWrapper() {
      * @param callback 回调
      */
     fun registryAppStatusCallback(callback: OnAppStatusCallback) {
-        if (!mStatusCallback.contains(callback)) {
-            mStatusCallback.add(callback)
+        if (!initialed) {
+            LogUtil.w("尚未初始化，请不要忘记初始化")
+        }
+        if (!mStatusCallbacks.contains(callback)) {
+            mStatusCallbacks.add(callback)
         }
     }
 
@@ -34,8 +56,11 @@ object AppStatusHelper : ActivityLifecycleCallbacksWrapper() {
      * @param callback 回调
      */
     fun unRegistryAppStatusCallback(callback: OnAppStatusCallback) {
-        if (mStatusCallback.contains(callback)) {
-            mStatusCallback.remove(callback)
+        if (!initialed) {
+            LogUtil.w("尚未初始化，请不要忘记初始化")
+        }
+        if (mStatusCallbacks.contains(callback)) {
+            mStatusCallbacks.remove(callback)
         }
     }
 
@@ -47,8 +72,8 @@ object AppStatusHelper : ActivityLifecycleCallbacksWrapper() {
         }
     }
 
-    override fun onActivityPaused(activity: Activity) {
-        super.onActivityPaused(activity)
+    override fun onActivityStopped(activity: Activity) {
+        super.onActivityStopped(activity)
         mActivityNum--
         if (mActivityNum <= 0) {
             mActivityNum = 0
@@ -57,32 +82,32 @@ object AppStatusHelper : ActivityLifecycleCallbacksWrapper() {
     }
 
     private fun onAppForeground(activity: Activity) {
-        var confirm = true
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (AppInfoUtils.getAppTasksActivityCount(activity.applicationContext) == 1) {
-                confirm = true
-            }
-        }
-        if (!confirm) {
-            return
-        }
-        for (callback in mStatusCallback) {
-            callback.onAppToForeground(activity)
+        mStatusCallbacks.forEach{
+            it.onAppToForeground(activity)
         }
     }
 
     private fun onAppBackground(activity: Activity) {
-        var confirm = true
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (AppInfoUtils.getAppTasksActivityCount(activity.applicationContext) == 0) {
-                confirm = true
-            }
+        mStatusCallbacks.forEach{
+            it.onAppToBackground(activity)
         }
-        if (!confirm) {
-            return
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        mStatusCallbacks.forEach {
+            it.onConfigurationChanged(newConfig)
         }
-        for (callback in mStatusCallback) {
-            callback.onAppToBackground(activity)
+    }
+
+    override fun onLowMemory() {
+        mStatusCallbacks.forEach {
+            it.onLowMemory()
+        }
+    }
+
+    override fun onTrimMemory(level: Int) {
+        mStatusCallbacks.forEach {
+            it.onTrimMemory(level)
         }
     }
 }

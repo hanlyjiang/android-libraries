@@ -1,9 +1,7 @@
 package com.github.hanlyjiang.lib.common.utils;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
-import android.app.Service;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;

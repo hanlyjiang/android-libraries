@@ -25,7 +25,7 @@ android {
         minSdkVersion(22)
         targetSdkVersion(30)
         versionCode(1)
-        versionName("1.0.5-SNAPSHOT")
+        versionName("1.0.6-SNAPSHOT")
 
         testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
         consumerProguardFiles("consumer-rules.pro")
@@ -52,6 +52,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.3.0")
     // SnackBar 需要
     implementation("com.google.android.material:material:1.4.0")
+    implementation("org.jetbrains:annotations:21.0.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
