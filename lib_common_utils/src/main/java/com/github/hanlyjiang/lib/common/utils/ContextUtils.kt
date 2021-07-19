@@ -34,6 +34,27 @@ object ContextUtils {
     }
 
     /**
+     * 尝试获取 application
+     *
+     * @param context
+     * @return application or null
+     */
+    fun getApplication(context: Context): Application? {
+        return context as? Application
+            ?: when (context) {
+                is Activity -> {
+                    context.application
+                }
+                is Service -> {
+                    context.application
+                }
+                else -> {
+                    null
+                }
+            }
+    }
+
+    /**
      * 判断是否 application context，注意：仅一般情况下有效，对于自己构建的Context不一定判断准确
      *
      * @param context Context
