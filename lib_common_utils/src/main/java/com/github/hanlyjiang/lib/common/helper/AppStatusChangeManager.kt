@@ -8,13 +8,14 @@ import com.github.hanlyjiang.lib.common.iface.OnAppStatusCallback
 import com.github.hanlyjiang.lib.common.utils.ContextUtils
 import com.github.hanlyjiang.lib.common.utils.LogUtil
 import com.github.hanlyjiang.lib.common.wrapper.ActivityLifecycleCallbacksWrapper
+import org.jetbrains.annotations.ApiStatus
 
 /**
  * App 状态帮助器
  * @author hanlyjiang 2021/7/15 11:46 下午
  * @version 1.0
  */
-object AppStatusHelper : ActivityLifecycleCallbacksWrapper(), ComponentCallbacks2 {
+object AppStatusChangeManager : ActivityLifecycleCallbacksWrapper(), ComponentCallbacks2 {
 
     private var mActivityNum = 0
 
@@ -22,15 +23,19 @@ object AppStatusHelper : ActivityLifecycleCallbacksWrapper(), ComponentCallbacks
 
     private var initialed = false
 
+    @Volatile
+    private var isAppOnForeground = false
+
     /**
      * Init ，必须初始化才有作用
      *
      * @param context Context
      */
-    fun init(context: Context): AppStatusHelper {
+    @ApiStatus.Internal
+    fun init(context: Context): AppStatusChangeManager {
         ContextUtils.getApplication(context)?.run {
-            registerActivityLifecycleCallbacks(this@AppStatusHelper)
-            registerComponentCallbacks(this@AppStatusHelper)
+            registerActivityLifecycleCallbacks(this@AppStatusChangeManager)
+            registerComponentCallbacks(this@AppStatusChangeManager)
             initialed = true
         }
         return this
@@ -82,13 +87,15 @@ object AppStatusHelper : ActivityLifecycleCallbacksWrapper(), ComponentCallbacks
     }
 
     private fun onAppForeground(activity: Activity) {
-        mStatusCallbacks.forEach{
+        isAppOnForeground = true
+        mStatusCallbacks.forEach {
             it.onAppToForeground(activity)
         }
     }
 
     private fun onAppBackground(activity: Activity) {
-        mStatusCallbacks.forEach{
+        isAppOnForeground = false
+        mStatusCallbacks.forEach {
             it.onAppToBackground(activity)
         }
     }

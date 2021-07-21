@@ -4,7 +4,8 @@ import android.content.ContentProvider
 import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
-import com.github.hanlyjiang.lib.common.helper.AppStatusHelper
+import com.github.hanlyjiang.lib.common.helper.AppStatusChangeManager
+import com.github.hanlyjiang.lib.common.helper.network.NetworkStatusManager
 import org.jetbrains.annotations.ApiStatus
 
 /**
@@ -17,7 +18,10 @@ class CommonUtilsInitProvider : ContentProvider() {
 
     override fun onCreate(): Boolean {
         // 在此处进行初始化
-        context?.let { AppStatusHelper.init(it) }
+        context?.let {
+            AppStatusChangeManager.init(it)
+            NetworkStatusManager.init(it)
+        }
         return true
     }
 
