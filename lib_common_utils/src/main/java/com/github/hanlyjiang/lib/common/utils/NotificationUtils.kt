@@ -1,8 +1,10 @@
 package com.github.hanlyjiang.lib.common.utils
 
-import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
+import android.os.Build
 import android.os.RemoteException
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationManagerCompat
 
@@ -12,6 +14,24 @@ import androidx.core.app.NotificationManagerCompat
  * @version 1.0
  */
 object NotificationUtils {
+
+    /**
+     * 判断指定TAG的通知是否正在显示
+     *
+     * @param context Context
+     * @param tag 通知的TAG
+     */
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun isNotificationShown(context: Context, tag: String): Boolean {
+        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).run {
+            this.activeNotifications.forEach {
+                if (it.tag == tag) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
 
     /**
      * Create notification channel
