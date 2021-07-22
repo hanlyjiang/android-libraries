@@ -1,7 +1,6 @@
 package com.github.hanlyjiang.lib.common.helper.network
 
 import android.content.Context
-import android.net.ConnectivityManager
 import android.os.Build
 
 
@@ -61,36 +60,4 @@ object NetworkStatusManager : BaseNetworkStatusHelper() {
         initialed = false
     }
 
-}
-
-
-/**
- * 网络状态变化监听程序
- * @author hanlyjiang 2021/7/21 10:42 下午
- * @version 1.0
- */
-interface INetworkStatusChangeListener {
-
-    /**
-     * 网络变得可用
-     *
-     * @param network API 21以下版本为null，以上版本可用
-     */
-    fun onAvailable()
-
-    /**
-     * 网络变得不可用
-     *
-     * @param network API 21以下版本为null，以上版本可用
-     */
-    fun onLost()
-}
-
-/**
- * v21 及其上版本可用的网络状态变化监听，能提供更加丰富的监听回调
- * @author hanlyjiang 2021/7/21 10:43 下午
- * @version 1.0
- */
-abstract class INetworkStatusChangeListener2 : INetworkStatusChangeListener,
-    ConnectivityManager.NetworkCallback() {
 }

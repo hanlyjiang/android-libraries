@@ -15,9 +15,9 @@ class NetworkStatusHelperV1 : BaseNetworkStatusHelper() {
         override fun onNetworkChanged(hasNetwork: Boolean) {
             for (listener in listeners) {
                 if (hasNetwork) {
-                    listener.onAvailable()
+                    listener.onAvailable(null)
                 } else {
-                    listener.onLost()
+                    listener.onLost(null)
                 }
             }
         }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.github.hanlyjiang.lib.common.helper.AppKiller;
 import com.github.hanlyjiang.lib.common.utils.ToastUtils;
 
 import java.util.List;
@@ -25,9 +26,10 @@ public class MainActivity extends AppCompatActivity {
         vBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(vBinding.getRoot());
         vBinding.startActivity.setOnClickListener(v -> {
-            Intent intent = new Intent();
-            intent.setComponent(new ComponentName(v.getContext(), MainActivity.class));
-            startActivity(intent);
+//            Intent intent = new Intent();
+//            intent.setComponent(new ComponentName(v.getContext(), MainActivity.class));
+//            startActivity(intent);
+            AppKiller.INSTANCE.killApp();
         });
         vBinding.getAppTasks.setOnClickListener(v -> {
             ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);

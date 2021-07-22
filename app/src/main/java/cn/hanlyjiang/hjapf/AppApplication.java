@@ -7,6 +7,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.github.hanlyjiang.lib.common.helper.AppKiller;
 import com.github.hanlyjiang.lib.common.helper.AppStatusChangeManager;
 import com.github.hanlyjiang.lib.common.iface.OnAppStatusCallback;
 import com.github.hanlyjiang.lib.common.utils.LogUtil;
@@ -27,6 +28,7 @@ public class AppApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        AppKiller.INSTANCE.init(this);
         LogUtil.setEnable(BuildConfig.DEBUG);
         AppStatusChangeManager.INSTANCE.registryAppStatusCallback(new OnAppStatusCallback() {
             @Override
@@ -54,7 +56,6 @@ public class AppApplication extends Application {
                 Log.d(TAG, "onLowMemory");
             }
         });
-
 
 //        ActivityInstrumentationHook.install(this);
 //        ActivityManagerHook.install();

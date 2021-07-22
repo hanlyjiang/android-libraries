@@ -3,6 +3,8 @@
     package="com.github.hanlyjiang.lib.common">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+
     <application>
         <provider
             android:name=".provider.CommonUtilsInitProvider"
