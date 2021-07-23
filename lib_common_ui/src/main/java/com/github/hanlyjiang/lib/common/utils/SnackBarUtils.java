@@ -9,12 +9,12 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.snackbar.Snackbar;
 
 /**
- * Snackbar 工具
+ * SnackBar 工具
  *
  * @author hanlyjiang 5/26/21 10:27 PM
  * @version 1.0
  */
-public class SnackbarUtils {
+public class SnackBarUtils {
 
     /**
      * 以 ${@link Snackbar#LENGTH_SHORT} 的时长显示snackbar，内容为 msgResId 指定的字符串
