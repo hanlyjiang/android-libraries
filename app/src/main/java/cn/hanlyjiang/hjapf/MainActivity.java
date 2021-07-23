@@ -21,13 +21,11 @@ public class MainActivity extends DemoListActivity<Class<? extends Activity>> {
     public List<Item<Class<? extends Activity>>> getDataList() {
         List<Item<Class<? extends Activity>>> items = new ArrayList<>();
         items.add(new Item<>(
-                "Utils库演示入口",
-                "演示Android-common-utils的库",
+                "演示Android-common-utils的库", "Utils库演示入口",
                 UtilsLauncherActivity.class
         ));
         items.add(new Item<>(
-                "入口测试",
-                "JUST TEST",
+                "JUST TEST", "入口测试",
                 MainActivity.class
         ));
         return items;

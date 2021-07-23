@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name="cn.hanlyjiang.cutils.UtilsLauncherActivity"/>
+        <activity android:name="cn.hanlyjiang.cutils.activity.DeviceFitUtilsActivity"/>
     </application>
 
 </manifest>

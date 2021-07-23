@@ -48,7 +48,7 @@ public class AppInfoUtils {
      * @return 进程名称 or null
      */
     @Nullable
-    public static String getProcessName(Context context) {
+    public static String getProcessNameFromContext(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             return Application.getProcessName();
         }

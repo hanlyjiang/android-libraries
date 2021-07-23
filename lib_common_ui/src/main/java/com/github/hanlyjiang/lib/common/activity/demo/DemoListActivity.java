@@ -63,13 +63,13 @@ public  abstract class DemoListActivity<P> extends BaseListActivity<DemoListActi
     }
 
     public static class Item<P> {
-        String desc;
         String name;
+        String desc;
         P payload;
 
-        public Item(String desc, String name, P payload) {
-            this.desc = desc;
+        public Item(String name, String desc, P payload) {
             this.name = name;
+            this.desc = desc;
             this.payload = payload;
         }
 
