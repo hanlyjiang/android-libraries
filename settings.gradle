@@ -15,6 +15,7 @@ pluginManagement {
 
 include ':gradlePlugins'
 include ':lib_common_utils'
+include ':lib_common_ui'
 include ':plugin_01'
 include ':apf-library'
 include ':app'

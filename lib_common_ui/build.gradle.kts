@@ -25,7 +25,7 @@ android {
         minSdkVersion(22)
         targetSdkVersion(30)
         versionCode(1)
-        versionName("1.0.6-SNAPSHOT")
+        versionName("0.0.1-SNAPSHOT")
 
         testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
         consumerProguardFiles("consumer-rules.pro")
@@ -50,6 +50,8 @@ android {
 dependencies {
     // StringRes 注解
     implementation("androidx.appcompat:appcompat:1.3.0")
+    // SnackBar 需要
+    implementation("com.google.android.material:material:1.4.0")
     implementation("org.jetbrains:annotations:21.0.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
@@ -60,11 +62,11 @@ apply(plugin = "com.github.hanlyjiang.android_maven_pub")
 
 configure<io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension> {
     groupId.set("com.github.hanlyjiang")
-    artifactId.set("android-common-utils")
+    artifactId.set("android-common-ui")
     projectLocalRepoPath.set("local-maven-repo")
     mavenPomAction.set(Action<MavenPom> {
-        name.set("Android Common Utils Lib")
-        description.set("Android Common Utils Library For HJ")
+        name.set("Android Common UI Lib")
+        description.set("Android Common UI Library For HJ")
         url.set("https://github.com/hanlyjiang/android-libraries/")
         properties.set(
             mapOf(
