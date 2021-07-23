@@ -4,26 +4,28 @@ import android.app.Activity
 import android.content.Intent
 import android.view.View
 import com.github.hanlyjiang.lib.common.activity.demo.DemoListActivity
-import kotlin.reflect.KClass
 
 /**
  * 工具类的测试入口
  * @author hanlyjiang 2021/7/23 11:52 下午
  * @version 1.0
  */
-class UtilsLauncherActivity : DemoListActivity<KClass<out Activity>>() {
+class UtilsLauncherActivity : DemoListActivity<Class<out Activity>>() {
 
-    override fun onItemClick(itemView: View?, data: Item<KClass<out Activity>>?) {
-        startActivity(Intent(this,data?.payload?.java))
+    override fun onItemClick(itemView: View?, data: Item<Class<out Activity>>?) {
+        startActivity(Intent(this, data?.payload))
     }
 
-    override fun getDataList(): List<Item<KClass<out Activity>>> {
-        return mutableListOf<Item<KClass<out Activity>>>().apply {
-            Item<KClass<out Activity>>(
-                "UtilsLauncherActivity", "", UtilsLauncherActivity::class
+    override fun getDataList(): List<Item<Class<out Activity>>> {
+        return mutableListOf<Item<Class<out Activity>>>().apply {
+            Item<Class<out Activity>>(
+                "UtilsLauncherActivity", "", UtilsLauncherActivity::class.java
             ).also {
                 add(it)
             }
         }
     }
+
+    // 泛型中： out 表示只生产提供不写入，所以类型在生产时可以返回子类的（子类型开放）
+    // in 表示可能需要写入，此时类型只能是父类或该类的 （子类型闭合）
 }
