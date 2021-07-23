@@ -1,5 +1,9 @@
 package cn.hanlyjiang.hjapf;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.view.View;
+
 import com.github.hanlyjiang.lib.common.activity.demo.DemoListActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -7,19 +11,21 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.hanlyjiang.cutils.UtilsLauncherActivity;
 
-public class MainActivity extends DemoListActivity {
+
+public class MainActivity extends DemoListActivity<Class<? extends Activity>> {
 
     @NotNull
     @Override
-    public List<Item> getDataList() {
-        List<Item> items = new ArrayList<>();
-        items.add(new Item(
-                "入口测试",
-                "JUST TEST",
-                MainActivity.class
+    public List<Item<Class<? extends Activity>>> getDataList() {
+        List<Item<Class<? extends Activity>>> items = new ArrayList<>();
+        items.add(new Item<>(
+                "Utils库演示入口",
+                "演示Android-common-utils的库",
+                UtilsLauncherActivity.class
         ));
-        items.add(new Item(
+        items.add(new Item<>(
                 "入口测试",
                 "JUST TEST",
                 MainActivity.class
@@ -27,4 +33,8 @@ public class MainActivity extends DemoListActivity {
         return items;
     }
 
+    @Override
+    public void onItemClick(View itemView, Item<Class<? extends Activity>> data) {
+        startActivity(new Intent(this, data.getPayload()));
+    }
 }

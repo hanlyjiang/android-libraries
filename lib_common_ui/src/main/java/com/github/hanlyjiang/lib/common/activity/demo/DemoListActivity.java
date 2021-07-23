@@ -1,7 +1,5 @@
 package com.github.hanlyjiang.lib.common.activity.demo;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -19,9 +17,10 @@ import java.util.List;
  * 实现 {@link #getDataList()} 方法返回数据即可快速实现一个测试列表
  *
  * @author hanlyjiang
+ * @param <P> 数据payload类型
  */
-public abstract class DemoListActivity extends BaseListActivity<DemoListActivity.Item, DemoListActivity.ViewHolder>
-        implements BaseListActivity.QuickAdapter<DemoListActivity.Item, DemoListActivity.ViewHolder> {
+public  abstract class DemoListActivity<P> extends BaseListActivity<DemoListActivity.Item<P>, DemoListActivity.ViewHolder>
+        implements BaseListActivity.QuickAdapter<DemoListActivity.Item<P>, DemoListActivity.ViewHolder> {
 
     /**
      * 入口数据返回
@@ -30,16 +29,23 @@ public abstract class DemoListActivity extends BaseListActivity<DemoListActivity
      */
     @NonNull
     @Override
-    public abstract List<Item> getDataList();
+    public abstract List<Item<P>> getDataList();
+
+    /**
+     * Item 点击事件自定义，默认打开对应的 Activity
+     *
+     * @param itemView itemView
+     * @param data 数据
+     */
+    public abstract void onItemClick(View itemView, Item<P> data);
 
     @Override
-    public void bindViewHolder(Item data, ViewHolder holder) {
+    public void bindViewHolder(Item<P> data, ViewHolder holder) {
         TextView tv1 = holder.itemView.findViewById(android.R.id.text1);
         TextView tv2 = holder.itemView.findViewById(android.R.id.text2);
         tv1.setText(data.name);
         tv2.setText(data.desc);
-        holder.itemView.setOnClickListener(v ->
-                startActivity(new Intent(getApplicationContext(), data.activityClazz)));
+        holder.itemView.setOnClickListener(v -> onItemClick(holder.itemView, data));
     }
 
     @Override
@@ -52,19 +58,31 @@ public abstract class DemoListActivity extends BaseListActivity<DemoListActivity
 
     @NonNull
     @Override
-    public QuickAdapter<Item, ViewHolder> getQuickAdapter() {
+    public QuickAdapter<Item<P>, ViewHolder> getQuickAdapter() {
         return this;
     }
 
-    public static class Item {
+    public static class Item<P> {
         String desc;
         String name;
-        Class<? extends Activity> activityClazz;
+        P payload;
 
-        public Item(String desc, String name, Class<? extends Activity> activityClazz) {
+        public Item(String desc, String name, P payload) {
             this.desc = desc;
             this.name = name;
-            this.activityClazz = activityClazz;
+            this.payload = payload;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public P getPayload() {
+            return payload;
         }
     }
 
