@@ -57,13 +57,15 @@ class ProgressDialogBuilder {
         binding?.setVariable(BR.progressDialogIsDarkMode, isDarkMode)
         realBuilder.setView(binding?.root)
         val dialog = realBuilder.create()
+        val degree = 20
+        val step = 360 / degree
         dialog.setOnShowListener {
-            val values = FloatArray(11) { it * 36f }
+            val values = FloatArray(step + 1) { it * degree.toFloat() }
             val rotationAnimator = ObjectAnimator.ofFloat(binding?.ivProgress, "rotation", *values)
             rotationAnimator.setInterpolator { interpolatorValue ->
-                (interpolatorValue * 10).toInt() / 10f
+                (interpolatorValue * step).toInt() / step.toFloat()
             }
-            rotationAnimator.duration = 800L
+            rotationAnimator.duration = 500L
             rotationAnimator.repeatCount = -1
             rotationAnimator.repeatMode = ValueAnimator.RESTART
             rotationAnimator.start()
