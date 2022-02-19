@@ -156,7 +156,7 @@ plugins {
     id("signing")
     `maven-publish`
     // 引入我们本地仓库中的gradle插件
-    id("com.github.hanlyjiang.android_maven_pub") version ("0.0.5") apply (false)
+    id("com.github.hanlyjiang.android_maven_pub") version ("0.0.10") apply (false)
 }
 
 android {
@@ -175,6 +175,7 @@ configure<io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension> {
     groupId.set("com.github.hanlyjiang")
     artifactId.set("android-common-utils")
     projectLocalRepoPath.set("local-maven-repo")
+    versionName.set("1.0.1-SNAPSHOT")
     mavenPomAction.set(Action<MavenPom> {
         name.set("Android Common Utils Lib")
         description.set("Android Common Utils Library For HJ")
@@ -211,7 +212,7 @@ configure<io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension> {
 
 ## 使用步骤
 
-> 注意插件需要使用 gradle build-tools 的4.2.1 版本
+> 注意插件需要使用 gradle build-tools 的 4.2.1 及以上版本
 
 ```kotlin
 buildscript {
@@ -261,7 +262,7 @@ plugins {
     id 'com.android.library'
     id 'signing'
     id 'maven-publish'
-    id("com.github.hanlyjiang.android_maven_pub") version("0.0.9") apply(false)
+    id("com.github.hanlyjiang.android_maven_pub") version("0.0.10") apply(false)
 }
 ```
 
@@ -282,6 +283,7 @@ apply(plugin = "com.github.hanlyjiang.android_maven_pub")
 configure<io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension> {
     groupId.set("com.github.hanlyjiang")
     artifactId.set("android_common_utils")
+  	versionName.set("0.0.1-SNAPSHOT")
     mavenPomAction.set(Action<MavenPom> {
         name.set("Android Common Utils Lib")
         description.set("Android Common Utils Library For HJ")
@@ -320,6 +322,7 @@ apply plugin: "com.github.hanlyjiang.android_maven_pub"
 android_maven_pub {
     groupId.set("com.github.hanlyjiang")
     artifactId.set("android-common-utils")
+    versionName.set("1.0.1-SNAPSHOT")
     mavenPomAction.set({ pom ->
         pom.with {
             name.set('HJ Android Plugin Framework')
@@ -351,9 +354,7 @@ android_maven_pub {
 
 > ⚠️**注意**： 
 >
-> * 可以看到我们这里并没有定义版本号，版本号从 `android.defaultConfig.versionName` 中取 ；
->
-> * 同时，如果版本号结尾为 `-SNAPSHOT`，则会发布到 snapshot 仓库，如果没有，则发布到 release 仓库；
+> * 如果版本号结尾为 `-SNAPSHOT`，则会发布到 snapshot 仓库，如果没有，则发布到 release 仓库；
 
 ### maven仓库的属性文件配置
 
@@ -412,6 +413,7 @@ signing.secretKeyRingFile=导出的 gpg 文件路径 如： /Users/hanlyjiang/.g
 | -------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | groupId              | maven 的 group id，需要设置为自己申请的                      | 无默认值-必需填写                                            |
 | artifactId           | library 的 id                                                | 无默认值-必需填写                                            |
+| versionName          | library 版本信息                                             | 无默认值-必须填写（如果带有-SNAPSHOT后缀则发布到snapshot仓库） |
 | mavenPomAction       | 用于配置 pom 信息的字段                                      | 无默认值-必需填写                                            |
 | fromAndroidPubName   | 表示发布的 android 的 aar 的类型，`release` 或 `debug`       | `release`                                                    |
 | releasesRepoUrl      | maven release 仓库的上传地址                                 | `https://oss.sonatype.org/service/local/staging/deploy/maven2` |
