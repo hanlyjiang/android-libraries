@@ -1,10 +1,8 @@
 package io.hanlyjiang.gradle.android
 
 import org.gradle.api.Action
-import org.gradle.api.file.Directory
 import org.gradle.api.provider.Property
 import org.gradle.api.publish.maven.MavenPom
-import java.io.File
 
 /**
  * AndroidMavenPubPlugin 的配置扩展
@@ -55,6 +53,11 @@ interface AndroidMavenPubPluginExtension {
     /**
      * Project local repo path
      */
-    val projectLocalRepoPath : Property<String>
+    val projectLocalRepoPath: Property<String>
+
+    /**
+     * 版本名称
+     */
+    val versionName: Property<String>
 
 }

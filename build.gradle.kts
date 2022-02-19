@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     val kotlin_version by extra("1.4.32")
-    val android_gradle_build_version by extra("4.1.3")
+    val android_gradle_build_version by extra("7.0.0")
     repositories {
         // build model 卡住： https://blog.csdn.net/weixin_37119423/article/details/111500493
         maven { url = java.net.URI.create("https://maven.aliyun.com/repository/jcenter") }

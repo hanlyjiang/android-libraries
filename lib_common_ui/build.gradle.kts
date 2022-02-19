@@ -10,7 +10,7 @@ plugins {
     kotlin("android.extensions")
 
     // 引入我们本地仓库中的gradle插件
-    id("com.github.hanlyjiang.android_maven_pub") version ("0.0.9") apply (false)
+    id("com.github.hanlyjiang.android_maven_pub") version ("0.0.10") apply (false)
 
 }
 
@@ -24,16 +24,14 @@ android {
     defaultConfig {
         minSdkVersion(22)
         targetSdkVersion(30)
-        versionCode(1)
-        versionName("0.0.1-SNAPSHOT")
 
-        testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         getByName("release") {
-            minifyEnabled(false)
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -64,6 +62,7 @@ configure<io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension> {
     groupId.set("com.github.hanlyjiang")
     artifactId.set("android-common-ui")
     projectLocalRepoPath.set("local-maven-repo")
+    versionName.set("0.0.1-SNAPSHOT")
     mavenPomAction.set(Action<MavenPom> {
         name.set("Android Common UI Lib")
         description.set("Android Common UI Library For HJ")

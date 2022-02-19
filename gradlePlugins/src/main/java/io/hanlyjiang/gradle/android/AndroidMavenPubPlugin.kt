@@ -114,7 +114,7 @@ class AndroidMavenPubPlugin : Plugin<Project> {
                             from(project.components.getByName("release"))
                             groupId = pluginExtension.groupId.get()
                             artifactId = pluginExtension.artifactId.get()
-                            version = android.defaultConfig.versionName
+                            version = pluginExtension.versionName.get()
                             pom(pluginExtension.mavenPomAction.get())
                             pluginExtension.run {
                                 if (!includeJavadocJar.isPresent || includeJavadocJar.get()) {

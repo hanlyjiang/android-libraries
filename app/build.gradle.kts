@@ -9,17 +9,17 @@ android {
     buildToolsVersion("30.0.3")
 
     defaultConfig {
-        applicationId("cn.hanlyjiang.hjapf")
+        applicationId = "cn.hanlyjiang.hjapf"
         minSdkVersion(22)
         targetSdkVersion(30)
         versionCode = 1
         versionName = "1.0"
-        testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         getByName("release") {
-            minifyEnabled(false)
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
