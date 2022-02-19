@@ -19,6 +19,7 @@
         </activity>
         <activity android:name="cn.hanlyjiang.cutils.UtilsLauncherActivity"/>
         <activity android:name="cn.hanlyjiang.cutils.activity.DeviceFitUtilsActivity"/>
+        <activity android:name="cn.hanlyjiang.cutils.activity.CommonUIDemoActivity"/>
     </application>
 
 </manifest>

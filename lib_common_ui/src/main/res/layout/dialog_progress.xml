@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+                name="progressDialogMsg"
+                type="String"/>
+
+        <variable
+                name="progressDialogIsDarkMode"
+                type="boolean"/>
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@{progressDialogIsDarkMode ? @drawable/progress_dialog_bg_dark : @drawable/progress_dialog_bg}">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivProgress"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:src="@{progressDialogIsDarkMode ?  @drawable/ic_loading_dark : @drawable/ic_loading_white}"
+                tools:srcCompat="@tools:sample/avatars"/>
+
+        <TextView
+                android:text="@{progressDialogMsg}"
+                tools:text="加载中加载中加载中"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvMsg"
+                android:textSize="16sp"
+                android:lines="1"
+                android:maxEms="6"
+                android:textColor="@{progressDialogIsDarkMode ? @color/white : @color/color_CC000000 }"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="18dp"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("android.extensions")
+    kotlin("kapt")
 }
 
 android {
@@ -34,6 +35,10 @@ android {
 
     buildFeatures {
         viewBinding = true
+    }
+
+    dataBinding {
+        isEnabled = true
     }
 }
 

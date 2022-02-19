@@ -3,6 +3,7 @@ package cn.hanlyjiang.cutils
 import android.app.Activity
 import android.content.Intent
 import android.view.View
+import cn.hanlyjiang.cutils.activity.CommonUIDemoActivity
 import cn.hanlyjiang.cutils.activity.DeviceFitUtilsActivity
 import com.github.hanlyjiang.lib.common.activity.demo.DemoListActivity
 
@@ -21,6 +22,11 @@ class UtilsLauncherActivity : DemoListActivity<Class<out Activity>>() {
         return mutableListOf<Item<Class<out Activity>>>().apply {
             Item<Class<out Activity>>(
                 "启动 DeviceFitUtilsActivity", "DeviceFitUtilsActivity", DeviceFitUtilsActivity::class.java
+            ).also {
+                add(it)
+            }
+            Item<Class<out Activity>>(
+                "启动 CommonUIDemoActivity", "CommonUIDemoActivity", CommonUIDemoActivity::class.java
             ).also {
                 add(it)
             }

@@ -1,5 +1,3 @@
-import org.gradle.api.publish.maven.MavenPom
-
 //import io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension
 
 plugins {
@@ -8,6 +6,8 @@ plugins {
     `maven-publish`
     kotlin("android")
     kotlin("android.extensions")
+    // 解决 viewBinding 找不到BR
+    kotlin("kapt")
 
     // 引入我们本地仓库中的gradle插件
     id("com.github.hanlyjiang.android_maven_pub") version ("0.0.10") apply (false)
@@ -27,6 +27,14 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+    }
+
+    buildFeatures {
+        dataBinding = true
+    }
+
+    dataBinding {
+        isEnabled = true
     }
 
     buildTypes {
