@@ -20,3 +20,4 @@ include ':plugin_01'
 include ':apf-library'
 include ':app'
 rootProject.name = "HJAPF"
+include ':lib_ui_prodialog'

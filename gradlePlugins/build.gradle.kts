@@ -1,3 +1,5 @@
+import io.hanlyjiang.gradle.android.GitHelper
+
 plugins {
     `java-library`
     id("kotlin")
@@ -78,7 +80,6 @@ pluginBundle {
 //        version = "0.0.9"
 //    }
 }
-
 
 
 publishing {

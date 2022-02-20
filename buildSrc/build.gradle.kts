@@ -24,7 +24,6 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     // 添加android相关build tools依赖，以便使用 android gradle 相关的API
     implementation("com.android.tools.build:gradle:7.0.0")
-
     // 引入我们自己的插件库（本地无法直接引入项目）
     // 由于buildSrc项目会被所有的项目都引用，所以我们只能使用compileOnly来引入（不过这么引入什么用都没有）
     // 否则可能会产生下面的错误：

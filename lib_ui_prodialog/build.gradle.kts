@@ -1,16 +1,14 @@
 import io.hanlyjiang.gradle.android.GitHelper
 
+
 plugins {
     id("com.android.library")
-    id("signing")
-    `maven-publish`
     kotlin("android")
     kotlin("android.extensions")
     // 解决 viewBinding 找不到BR
     kotlin("kapt")
-
-    // 引入我们本地仓库中的gradle插件
-    id("com.github.hanlyjiang.android_maven_pub") version ("0.0.10") apply (false)
+    // 引入我们的gradle插件
+    AndroidMavenPubHelper.apply(this)
 }
 
 // 引入buildSrc中的插件
@@ -50,6 +48,15 @@ android {
         sourceCompatibility(JavaVersion.VERSION_1_8)
         targetCompatibility(JavaVersion.VERSION_1_8)
     }
+
+    buildFeatures {
+        dataBinding = true
+    }
+
+    dataBinding {
+        isEnabled = true
+    }
+
 }
 
 dependencies {
@@ -61,18 +68,30 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+
+    //dependencies {
+//
+//    implementation 'androidx.core:core-ktx:1.3.2'
+//    implementation 'androidx.appcompat:appcompat:1.2.0'
+//    implementation 'com.google.android.material:material:1.3.0'
+//    testImplementation 'junit:junit:4.+'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+//}
 }
+
+GitHelper.createShowGitRepoInfoTask(tasks)
 
 apply(plugin = "com.github.hanlyjiang.android_maven_pub")
 
 configure<io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension> {
     groupId.set("com.github.hanlyjiang")
-    artifactId.set("android-common-ui")
+    artifactId.set("pro-dialog")
     projectLocalRepoPath.set("local-maven-repo")
     versionName.set("0.0.1-SNAPSHOT")
     mavenPomAction.set(Action<MavenPom> {
-        name.set("Android Common UI Lib")
-        description.set("Android Common UI Library For HJ")
+        name.set("Android Dialog")
+        description.set("Android Dialog")
         url.set("https://github.com/hanlyjiang/android-libraries/")
         properties.set(
             mapOf(
@@ -100,5 +119,3 @@ configure<io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension> {
         }
     })
 }
-
-GitHelper.createShowGitRepoInfoTask(tasks)

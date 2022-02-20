@@ -1,17 +1,15 @@
 import org.gradle.api.publish.maven.MavenPom
+import io.hanlyjiang.gradle.android.GitHelper
 
 //import io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension
 
 plugins {
     id("com.android.library")
-    id("signing")
-    `maven-publish`
     kotlin("android")
     kotlin("android.extensions")
 
-    // 引入我们本地仓库中的gradle插件
-    id("com.github.hanlyjiang.android_maven_pub") version ("0.0.10") apply (false)
-
+    // 引入我们的gradle插件
+    AndroidMavenPubHelper.apply(this)
 }
 
 // 引入buildSrc中的插件
@@ -66,8 +64,8 @@ configure<io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension> {
         url.set("https://github.com/hanlyjiang/android-libraries/")
         properties.set(
             mapOf(
-                "cvs_revision" to getGitRevision(),
-                "cvs_branch" to getGitBranch()
+                "cvs_revision" to GitHelper.getGitRevision(),
+                "cvs_branch" to GitHelper.getGitBranch()
             )
         )
         licenses {
@@ -91,40 +89,4 @@ configure<io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension> {
     })
 }
 
-tasks.create("showGitRepoInfo") {
-    group = "help"
-    doLast {
-        println("${getGitBranch()}/${getGitRevision()}")
-    }
-}
-
-fun String.execute(): String {
-    val process = Runtime.getRuntime().exec(this)
-    return with(process.inputStream.bufferedReader()) {
-        readText()
-    }
-}
-
-/**
- * Get git revision with work tree status
- *
- * @return
- */
-fun getGitRevision(): String {
-    val rev = "git rev-parse --short HEAD".execute().trim()
-    val stat = "git diff --stat".execute().trim()
-    return if (stat.isEmpty()) {
-        rev
-    } else {
-        "$rev-dirty"
-    }
-}
-
-/**
- * Get git branch name
- *
- * @return
- */
-fun getGitBranch(): String {
-    return "git rev-parse --abbrev-ref HEAD".execute().trim()
-}
+GitHelper.createShowGitRepoInfoTask(tasks)

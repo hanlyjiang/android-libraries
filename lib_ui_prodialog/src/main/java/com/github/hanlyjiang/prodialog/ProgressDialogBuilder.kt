@@ -1,13 +1,12 @@
-package com.github.hanlyjiang.lib.common.ui.dialog
+package com.github.hanlyjiang.prodialog
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
-import com.github.hanlyjiang.lib.common.ui.BR
-import com.github.hanlyjiang.lib.common.ui.R
-import com.github.hanlyjiang.lib.common.ui.databinding.DialogProgressBinding
+import com.github.hanlyjiang.prodialog.databinding.DialogProgressBinding
+
 
 /**
  * 简要的进度对话框
@@ -65,7 +64,7 @@ class ProgressDialogBuilder {
             rotationAnimator.setInterpolator { interpolatorValue ->
                 (interpolatorValue * step).toInt() / step.toFloat()
             }
-            rotationAnimator.duration = 500L
+            rotationAnimator.duration = 1000L
             rotationAnimator.repeatCount = -1
             rotationAnimator.repeatMode = ValueAnimator.RESTART
             rotationAnimator.start()
