@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 
+import cn.hanlyjiang.cutils.activity.WaveViewDemoActivity;
 import com.github.hanlyjiang.lib.common.activity.demo.DemoListActivity;
 
+import com.github.hanlyjiang.lib.common.widgets.WaveView;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -25,8 +27,8 @@ public class MainActivity extends DemoListActivity<Class<? extends Activity>> {
                 UtilsLauncherActivity.class
         ));
         items.add(new Item<>(
-                "JUST TEST", "入口测试",
-                MainActivity.class
+                "WaveViewDemoActivity", "入口测试",
+                WaveViewDemoActivity.class
         ));
         return items;
     }

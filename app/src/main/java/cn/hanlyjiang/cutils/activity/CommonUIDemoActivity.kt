@@ -1,9 +1,10 @@
 package cn.hanlyjiang.cutils.activity
 
+import android.content.Intent
 import android.view.View
 import com.github.hanlyjiang.lib.common.activity.demo.DemoListActivity
-import com.github.hanlyjiang.prodialog.ProgressDialogBuilder
 import com.github.hanlyjiang.lib.common.utils.SnackBarUtils
+import com.github.hanlyjiang.prodialog.ProgressDialogBuilder
 
 /**
  * 工具类的测试入口
@@ -15,12 +16,15 @@ class CommonUIDemoActivity : DemoListActivity<View.OnClickListener>() {
     override fun getDataList(): List<Item<View.OnClickListener>> {
         return mutableListOf<Item<View.OnClickListener>>().apply {
             add(newItem("显示对话框", "显示对话框") {
-                com.github.hanlyjiang.prodialog.ProgressDialogBuilder(this@CommonUIDemoActivity)
+                ProgressDialogBuilder(this@CommonUIDemoActivity)
                     .setMessage("正在加载").show()
             })
             add(newItem("显示对话框-Dark", "显示对话框") {
-                com.github.hanlyjiang.prodialog.ProgressDialogBuilder(this@CommonUIDemoActivity)
+                ProgressDialogBuilder(this@CommonUIDemoActivity)
                     .setMessage("正在加载").setIsDarkMode(true).show()
+            })
+            add(newItem("显示WaveViewDemoActivity", "显示WaveViewDemoActivity") {
+                startActivity(Intent(this@CommonUIDemoActivity, WaveViewDemoActivity::class.java))
             })
         }
     }
