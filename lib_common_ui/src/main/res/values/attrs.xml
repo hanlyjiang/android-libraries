@@ -3,5 +3,7 @@
     <declare-styleable name="WaveView">
         <attr name="waveColor" format="color"/>
         <attr name="waveColumnCount" format="integer"/>
+        <attr name="waveBackgroundColor" format="color"/>
+        <attr name="waveAnimationDuration" format="integer"/>
     </declare-styleable>
 </resources>

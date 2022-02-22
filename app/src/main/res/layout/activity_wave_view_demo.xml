@@ -9,18 +9,27 @@
         android:orientation="vertical">
 
 
-    <FrameLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:padding="8dp"
+            android:orientation="vertical">
+
+        <com.github.hanlyjiang.lib.common.widgets.WaveSurfaceView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:waveColor="@color/purple_200"
+                app:waveAnimationDuration="1000"
+                android:padding="4dp"
+                app:waveColumnCount="3"/>
 
         <com.github.hanlyjiang.lib.common.widgets.WaveView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 app:waveColor="@color/purple_200"
                 android:padding="8dp"
                 app:waveColumnCount="3"/>
-    </FrameLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>
