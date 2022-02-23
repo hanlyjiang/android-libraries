@@ -17,12 +17,11 @@ plugins {
 //apply<io.hanlyjiang.gradle.android.AndroidMavenPubPlugin>()
 
 android {
-    compileSdkVersion(30)
-    buildToolsVersion("30.0.3")
-
+    compileSdk = properties["_compileSdk"] as Int
+    buildToolsVersion = properties["_buildTools"] as String
     defaultConfig {
-        minSdkVersion(22)
-        targetSdkVersion(30)
+        minSdk = properties["_minSdk"] as Int
+        targetSdk = properties["_targetSdk"] as Int
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -53,14 +52,13 @@ android {
 }
 
 dependencies {
+    DependenciesMgr.applyTestDependencies(this)
+
     // StringRes 注解
     implementation("androidx.appcompat:appcompat:1.3.0")
     // SnackBar 需要
     implementation("com.google.android.material:material:1.4.0")
     implementation("org.jetbrains:annotations:21.0.1")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }
 
 apply(plugin = "com.github.hanlyjiang.android_maven_pub")

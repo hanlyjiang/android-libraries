@@ -1,0 +1,23 @@
+println("------- execute config.gradle START------")
+// 由于使用kts gradle脚本不方便apply，所以我们还是使用groovy的脚本来定义通用的配置属性
+ext {
+    // buildScript
+    androidGradleBuildVersion = "7.0.0"
+    kotlinVersion = "1.4.32"
+
+    // Android 编译相关
+    _compileSdk = 30
+    _buildTools = "30.0.3"
+    _minSdk = 22
+    _targetSdk = 30
+
+    // 依赖定义
+    _deps = [
+            "test": "1.1.1",
+    ]
+
+    // 其他属性定义
+
+}
+
+println("------- execute config.gradle E N D------")

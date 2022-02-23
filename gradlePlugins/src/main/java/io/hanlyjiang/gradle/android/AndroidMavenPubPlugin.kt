@@ -14,6 +14,7 @@ import org.gradle.external.javadoc.StandardJavadocDocletOptions
 import org.gradle.kotlin.dsl.create
 import org.gradle.plugins.signing.SigningExtension
 import java.io.File
+import java.net.URI
 
 /**
  * Android 库发布到Maven仓库的辅助插件
@@ -141,9 +142,9 @@ class AndroidMavenPubPlugin : Plugin<Project> {
                 maven {
                     name = "Sonartype"
 
-                    val releasesRepoUrl = project.uri(getMavenReleaseUrl())
-                    val snapshotsRepoUrl = project.uri(getMavenSnapshotsUrl())
-                    url = if (android.defaultConfig.versionName.toString()
+                    val releasesRepoUrl = URI(getMavenReleaseUrl())
+                    val snapshotsRepoUrl = URI(getMavenSnapshotsUrl())
+                    url = if (pluginExtension.versionName.get().toString()
                             .endsWith("SNAPSHOT")
                     ) snapshotsRepoUrl else releasesRepoUrl
                     credentials(ossrhCredentials)

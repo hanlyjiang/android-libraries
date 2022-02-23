@@ -7,9 +7,12 @@ import org.gradle.plugin.use.PluginDependenciesSpec
 
 const val MavenPubPluginId = "com.github.hanlyjiang.android_maven_pub"
 
-const val MavenPubPluginVersion = "0.0.10"
+const val MavenPubPluginVersion = "0.0.11"
 
 object AndroidMavenPubHelper {
+    /**
+     * 应用AndroidMavenPubPlugin（同时也会应用signing和maven-publish插件
+     */
     fun apply(pluginsConfig: PluginDependenciesSpec) {
         pluginsConfig.apply {
             id("signing")

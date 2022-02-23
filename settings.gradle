@@ -13,11 +13,13 @@ pluginManagement {
     }
 }
 
+rootProject.name = "HJALB"
+
 include ':gradlePlugins'
+
+include ':app'
 include ':lib_common_utils'
 include ':lib_common_ui'
-include ':plugin_01'
-include ':apf-library'
-include ':app'
-rootProject.name = "HJAPF"
 include ':lib_ui_prodialog'
+//include ':plugin_01'
+//include ':apf-library'
