@@ -183,7 +183,7 @@ public class WaveSurfaceView extends SurfaceView {
         canvas.translate(getPaddingLeft(), getPaddingTop() + (columnWidth / 2));
         for (float x : waveXIndex) {
             float y = (int) sin(A, w, x, phase, 0);
-            mPath.reset();
+            mPath.rewind();
             mPath.moveTo(x, A - y);
             mPath.lineTo(x, A + y);
             canvas.drawPath(mPath, mPaint);

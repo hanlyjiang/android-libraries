@@ -51,7 +51,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
 
     // 引入我们自己的库
-//    implementation(project(path = ":apf-library"))
+    implementation(project(path = ":apf-library"))
     implementation(project(path = ":lib_common_utils"))
     implementation(project(path = ":lib_common_ui"))
     implementation(project(path = ":lib_ui_prodialog"))

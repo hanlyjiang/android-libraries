@@ -29,7 +29,7 @@ public class WaveView extends View {
     private final LinearInterpolator linearInterpolator = new LinearInterpolator();
     private float columnWidth;
 
-    private Rect mBgRect = new Rect();
+    private final Rect mBgRect = new Rect();
 
     public WaveView(Context context) {
         super(context);
@@ -84,7 +84,7 @@ public class WaveView extends View {
             phaseAnimator.cancel();
         }
         phaseAnimator = ObjectAnimator.ofInt(this, "phase", 0, 180);
-        phaseAnimator.setDuration(2000);
+        phaseAnimator.setDuration(waveAnimationDuration);
         phaseAnimator.setRepeatCount(ValueAnimator.INFINITE);
         phaseAnimator.setRepeatMode(ValueAnimator.RESTART);
         phaseAnimator.setInterpolator(linearInterpolator);
@@ -121,7 +121,7 @@ public class WaveView extends View {
         for (float x : waveXIndex) {
             float y = (int) sin(A, w, x, phase, 0);
             Log.d(TAG, String.format("%.2f,%.2f", x, y));
-            mPath.reset();
+            mPath.rewind();
             mPath.moveTo(x, A - y);
             mPath.lineTo(x, A + y);
             canvas.drawPath(mPath, mPaint);

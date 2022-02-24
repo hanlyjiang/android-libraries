@@ -1,34 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="cn.hanlyjiang.cutils.activity.WaveViewDemoActivity"
-        android:orientation="vertical">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cn.hanlyjiang.cutils.activity.WaveViewDemoActivity"
+    android:orientation="vertical">
 
 
     <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:orientation="vertical">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:orientation="vertical">
 
         <com.github.hanlyjiang.lib.common.widgets.WaveSurfaceView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                app:waveColor="@color/purple_200"
-                app:waveAnimationDuration="1000"
-                android:padding="4dp"
-                app:waveColumnCount="3"/>
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:waveColor="@color/purple_200"
+            app:waveAnimationDuration="1000"
+            android:padding="4dp"
+            app:waveColumnCount="3"/>
 
         <com.github.hanlyjiang.lib.common.widgets.WaveView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                app:waveColor="@color/purple_200"
-                android:padding="8dp"
-                app:waveColumnCount="3"/>
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:waveColor="@color/purple_200"
+            android:padding="8dp"
+            app:waveColumnCount="3"/>
+
+        <com.github.hanlyjiang.lib.common.widgets.ArcView
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            app:arcBgColor="@color/purple_200"
+            app:arcHeight="100dp"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
