@@ -1,0 +1,20 @@
+apply plugin: 'maven-publish'
+
+publishing {
+    publications {
+        // 本地AAR 发布
+        localAar(MavenPublication) {
+            // 替换为对应的实际值
+            groupId "PUBLISH_GROUP_ID"
+            artifactId "PUBLISH_ARTIFACT_ID"
+            version "1.0.0"
+            artifact file("./libs/xxx.aar")
+        }
+    }
+    repositories {
+        maven {
+            name = "ProjectLocal-Release"
+            setUrl(new File(rootProject.rootDir, "local-maven-repo${File.separator}release").absolutePath)
+        }
+    }
+}
