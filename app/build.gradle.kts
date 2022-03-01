@@ -55,6 +55,7 @@ dependencies {
     implementation(project(path = ":lib_common_utils"))
     implementation(project(path = ":lib_common_ui"))
     implementation(project(path = ":lib_ui_prodialog"))
+    implementation(project(path = ":lib_di_sample"))
 
 //    implementation("com.github.hanlyjiang:android_common_utils:1.0.3-SNAPSHOT")
 }

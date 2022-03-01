@@ -6,6 +6,8 @@ import android.view.View
 import cn.hanlyjiang.cutils.activity.CommonUIDemoActivity
 import cn.hanlyjiang.cutils.activity.DeviceFitUtilsActivity
 import com.github.hanlyjiang.lib.common.activity.demo.DemoListActivity
+import com.github.hanlyjiang.lib.common.di.SdkInjector
+import com.github.hanlyjiang.lib.common.di.instance.TestDiMainActivity
 
 /**
  * 工具类的测试入口
@@ -15,7 +17,12 @@ import com.github.hanlyjiang.lib.common.activity.demo.DemoListActivity
 class UtilsLauncherActivity : DemoListActivity<Class<out Activity>>() {
 
     override fun onItemClick(itemView: View?, data: Item<Class<out Activity>>?) {
-        startActivity(Intent(this, data?.payload))
+        if (data?.payload?.name == TestDiMainActivity::class.java.name) {
+            SdkInjector.init(application)
+            startActivity(Intent(this, data?.payload))
+        } else {
+            startActivity(Intent(this, data?.payload))
+        }
     }
 
     override fun getDataList(): List<Item<Class<out Activity>>> {
@@ -29,6 +36,12 @@ class UtilsLauncherActivity : DemoListActivity<Class<out Activity>>() {
                 "启动 CommonUIDemoActivity", "CommonUIDemoActivity", CommonUIDemoActivity::class.java
             ).also {
                 add(it)
+            }
+            Item<Class<out Activity>>(
+                "启动 TestDiMainActivity", "TestDiMainActivity", TestDiMainActivity::class.java
+            ).also {
+                add(it)
+
             }
         }
     }
