@@ -54,6 +54,7 @@ android {
 
 dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+    implementation(project(mapOf("path" to ":lib_common_utils")))
     DependenciesMgr.applyTestDependencies(this)
 
     // StringRes 注解

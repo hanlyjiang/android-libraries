@@ -12,6 +12,10 @@
         <activity
             android:name=".instance.TestDiMainActivity"
             android:exported="true"/>
+
+        <activity
+            android:name=".instance.TestDiMvpActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

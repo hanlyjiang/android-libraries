@@ -26,5 +26,9 @@ public class TestDiMainActivity extends AppCompatActivity implements Injectable 
 
         // startTestService
         startService(new Intent(this, TestDiService.class));
+
+        findViewById(R.id.openBtn).setOnClickListener(v -> {
+            startActivity(new Intent(this, TestDiMvpActivity.class));
+        });
     }
 }

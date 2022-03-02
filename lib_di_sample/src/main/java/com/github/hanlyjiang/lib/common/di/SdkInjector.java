@@ -45,7 +45,8 @@ public class SdkInjector {
             return;
         }
         sSdkComponent = DaggerSdkComponent.builder()
-//                .application(application)
+                .application(application)
+                .context(application.getApplicationContext())
                 .build();
         SdkInjector.sSdkContainer = new SdkContainer();
         sSdkComponent.inject(sSdkContainer);
