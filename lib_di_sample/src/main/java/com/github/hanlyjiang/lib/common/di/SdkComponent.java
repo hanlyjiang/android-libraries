@@ -8,7 +8,7 @@ import com.github.hanlyjiang.lib.common.di.module.FragmentModule;
 import com.github.hanlyjiang.lib.common.di.module.NormalObjModule;
 import com.github.hanlyjiang.lib.common.di.module.ServiceModule;
 import com.github.hanlyjiang.lib.common.di.module.mvp.MvpActivitySubComponent;
-import com.github.hanlyjiang.lib.common.di.module.mvp.TestDiMvpActivityModule;
+import com.github.hanlyjiang.lib.common.di.module.mvp.MvpActivitySubComponentModule;
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
@@ -23,13 +23,17 @@ import javax.inject.Singleton;
                 ActivityModule.class,
                 FragmentModule.class,
                 ServiceModule.class,
+                MvpActivitySubComponentModule.class
+//                MvpInjectionModule.class
         }
 )
 public interface SdkComponent {
 
     void inject(SdkContainer sdkContainer);
 
-    MvpActivitySubComponent getMvpActivitySubComponent(TestDiMvpActivityModule module);
+    MvpActivitySubComponent.Builder mvpMvpActivitySubComponentBuilder();
+
+//    MvpActivitySubComponent getMvpActivitySubComponent(TestDiMvpActivityModule module);
 
     @Component.Builder
     interface Builder {

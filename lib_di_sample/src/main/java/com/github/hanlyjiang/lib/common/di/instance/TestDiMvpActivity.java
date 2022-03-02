@@ -30,7 +30,8 @@ public class TestDiMvpActivity extends MvpActivity<TestDiPresenter, TestDiPresen
     @Override
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         MvpActivitySubComponent mvpActivitySubComponent = SdkInjector.getSdkComponent()
-                .getMvpActivitySubComponent(new TestDiMvpActivityModule(this));
+                .mvpMvpActivitySubComponentBuilder()
+                .testDiMvpActivityModule(new TestDiMvpActivityModule(this)).build();
         mvpActivitySubComponent.inject(this);
         mvpActivitySubComponent.inject(mPresenter);
         mPresenter.assertInject();

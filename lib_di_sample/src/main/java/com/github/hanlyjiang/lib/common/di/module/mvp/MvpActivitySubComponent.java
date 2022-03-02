@@ -15,4 +15,12 @@ public interface MvpActivitySubComponent {
     TestDiMvpActivity inject(TestDiMvpActivity activity);
 
     TestDiPresenter inject(TestDiPresenter presenter);
+
+    @Subcomponent.Builder
+    interface Builder {
+
+        MvpActivitySubComponent build();
+
+        Builder testDiMvpActivityModule(TestDiMvpActivityModule module);
+    }
 }
