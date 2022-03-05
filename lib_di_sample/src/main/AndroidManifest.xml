@@ -4,17 +4,17 @@
 
     <application>
         <service
-            android:name=".instance.TestDiService"
+            android:name=".test.TestDiService"
             android:enabled="true"
             android:exported="true">
         </service>
 
         <activity
-            android:name=".instance.TestDiMainActivity"
+            android:name=".test.TestDiMainActivity"
             android:exported="true"/>
 
         <activity
-            android:name=".instance.TestDiMvpActivity"
+            android:name=".test.TestDiMvpActivity"
             android:exported="true"/>
     </application>
 

@@ -6,8 +6,8 @@ import android.view.View
 import cn.hanlyjiang.cutils.activity.CommonUIDemoActivity
 import cn.hanlyjiang.cutils.activity.DeviceFitUtilsActivity
 import com.github.hanlyjiang.lib.common.activity.demo.DemoListActivity
-import com.github.hanlyjiang.lib.common.di.SdkInjector
-import com.github.hanlyjiang.lib.common.di.instance.TestDiMainActivity
+import com.github.hanlyjiang.lib.common.di.framework.SdkInjector
+import com.github.hanlyjiang.lib.common.di.test.TestDiMainActivity
 
 /**
  * 工具类的测试入口
