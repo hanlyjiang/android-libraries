@@ -16,17 +16,10 @@ public class TestDiPresenter extends BasePresenter<TestDiPresenter.TestDiView> {
     TestObj testObj;
 
     public void assertInject() {
-        Log.d(getClass().getSimpleName(), "testSingleton == null: " + (testSingleton == null));
-        Log.d(getClass().getSimpleName(), "testObj == null: " + (testObj == null));
+        Test.assertInject(this, testSingleton, testObj);
     }
 
-    public TestDiPresenter() {
-    }
-
-    public TestDiPresenter(TestDiView view) {
-        super(view);
-    }
-
+    @Inject
     public TestDiPresenter(Context context, TestDiView view) {
         super(context, view);
     }

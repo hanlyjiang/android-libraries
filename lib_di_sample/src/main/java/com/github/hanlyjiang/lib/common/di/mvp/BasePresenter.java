@@ -19,13 +19,7 @@ public class BasePresenter<V extends BaseView> implements LifecycleEventObserver
     //获取当前生命周期
     public Lifecycle.Event mLifecycleEvent;
 
-    public BasePresenter() {
-    }
-
-    public BasePresenter(V view) {
-        mView = view;
-    }
-
+    @Inject
     public BasePresenter(Context context, V view) {
         mContext = context;
         mView = view;

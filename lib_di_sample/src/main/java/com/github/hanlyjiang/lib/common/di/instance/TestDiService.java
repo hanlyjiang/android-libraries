@@ -30,8 +30,7 @@ public class TestDiService extends JobIntentService implements Injectable {
 
     @Override
     public int onStartCommand(@Nullable @org.jetbrains.annotations.Nullable Intent intent, int flags, int startId) {
-        Log.d(getClass().getSimpleName(), "testSingleton == null: " + (testSingleton == null));
-        Log.d(getClass().getSimpleName(), "testObj == null: " + (testObj == null));
+        Test.assertInject(this, testSingleton, testObj);
         return super.onStartCommand(intent, flags, startId);
     }
 

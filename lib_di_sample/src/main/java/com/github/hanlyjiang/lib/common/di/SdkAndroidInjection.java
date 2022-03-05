@@ -46,17 +46,19 @@ public final class SdkAndroidInjection {
      *                          HasAndroidInjector}.
      */
     public static void inject(Activity activity) {
+        inject(activity, SdkInjector.getSdkContainer());
+    }
+
+    public static void inject(Activity activity, HasAndroidInjector androidInjector) {
         checkNotNull(activity, "activity");
-        SdkContainer application = SdkInjector.getSdkContainer();
-        if (!(application instanceof HasAndroidInjector)) {
+        if (androidInjector == null) {
             throw new RuntimeException(
                     String.format(
                             "%s does not implement %s",
-                            application.getClass().getCanonicalName(),
+                            androidInjector.getClass().getCanonicalName(),
                             HasAndroidInjector.class.getCanonicalName()));
         }
-
-        inject(activity, (HasAndroidInjector) application);
+        doInject(activity, (HasAndroidInjector) androidInjector);
     }
 
     /**
@@ -81,8 +83,12 @@ public final class SdkAndroidInjection {
      *                                  {@link HasAndroidInjector}.
      */
     public static void inject(Fragment fragment) {
+        inject(fragment, SdkInjector.getSdkContainer());
+    }
+
+    public static void inject(Fragment fragment, HasAndroidInjector androidInjector) {
         checkNotNull(fragment, "fragment");
-        HasAndroidInjector hasAndroidInjector = findHasAndroidInjectorForFragment(fragment);
+        HasAndroidInjector hasAndroidInjector = findHasAndroidInjectorForFragment(fragment, androidInjector);
         if (Log.isLoggable(TAG, DEBUG)) {
             Log.d(
                     TAG,
@@ -92,10 +98,10 @@ public final class SdkAndroidInjection {
                             hasAndroidInjector.getClass().getCanonicalName()));
         }
 
-        inject(fragment, hasAndroidInjector);
+        doInject(fragment, hasAndroidInjector);
     }
 
-    private static HasAndroidInjector findHasAndroidInjectorForFragment(Fragment fragment) {
+    private static HasAndroidInjector findHasAndroidInjectorForFragment(Fragment fragment, HasAndroidInjector androidInjector) {
         Fragment parentFragment = fragment;
         while ((parentFragment = parentFragment.getParentFragment()) != null) {
             if (parentFragment instanceof HasAndroidInjector) {
@@ -106,8 +112,8 @@ public final class SdkAndroidInjection {
         if (activity instanceof HasAndroidInjector) {
             return (HasAndroidInjector) activity;
         }
-        if (SdkInjector.getSdkContainer() instanceof HasAndroidInjector) {
-            return (HasAndroidInjector) SdkInjector.getSdkContainer();
+        if (androidInjector != null) {
+            return (HasAndroidInjector) androidInjector;
         }
         throw new IllegalArgumentException(
                 String.format("No injector was found for %s", fragment.getClass().getCanonicalName()));
@@ -123,7 +129,7 @@ public final class SdkAndroidInjection {
     public static void inject(Service service) {
         checkNotNull(service, "service");
         SdkContainer application = SdkInjector.getSdkContainer();
-        if (!(application instanceof HasAndroidInjector)) {
+        if (application == null) {
             throw new RuntimeException(
                     String.format(
                             "%s does not implement %s",
@@ -131,7 +137,7 @@ public final class SdkAndroidInjection {
                             HasAndroidInjector.class.getCanonicalName()));
         }
 
-        inject(service, (HasAndroidInjector) application);
+        doInject(service, (HasAndroidInjector) application);
     }
 
     /**
@@ -153,7 +159,7 @@ public final class SdkAndroidInjection {
                             HasAndroidInjector.class.getCanonicalName()));
         }
 
-        inject(broadcastReceiver, (HasAndroidInjector) application);
+        doInject(broadcastReceiver, (HasAndroidInjector) application);
     }
 
     /**
@@ -174,10 +180,10 @@ public final class SdkAndroidInjection {
                             HasAndroidInjector.class.getCanonicalName()));
         }
 
-        inject(contentProvider, (HasAndroidInjector) application);
+        doInject(contentProvider, (HasAndroidInjector) application);
     }
 
-    private static void inject(Object target, HasAndroidInjector hasAndroidInjector) {
+    private static void doInject(Object target, HasAndroidInjector hasAndroidInjector) {
         AndroidInjector<Object> androidInjector = hasAndroidInjector.androidInjector();
         checkNotNull(
                 androidInjector, "%s.androidInjector() returned null", hasAndroidInjector.getClass());

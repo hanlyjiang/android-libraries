@@ -14,5 +14,5 @@ import com.github.hanlyjiang.lib.common.di.module.ServiceModule;
  * @author hanlyjiang on 2018/6/17-13:19.
  * @version 1.0
  */
-public interface Injectable {
+public interface MvpInjectable {
 }

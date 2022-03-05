@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import com.github.hanlyjiang.lib.common.di.base.BasicActivityLifeCycleCallbacks;
+import com.github.hanlyjiang.lib.common.di.mvpdi.MvpModule;
+import com.github.hanlyjiang.lib.common.di.mvpdi.AndroidProvider;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -69,7 +71,14 @@ public class SdkInjector {
     }
 
     private static void injectActivity(@NotNull Activity activity, @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        if (activity instanceof Injectable) {
+        if (activity instanceof MvpInjectable) {
+            MvpModule.MvpComponent mvpActivityComponent = SdkInjector.getSdkComponent()
+                    .mvpComponentBuilder().activityProvider(new AndroidProvider<>(activity))
+                    .fragmentProvider(null).build();
+            MvpContainer mvpContainer = new MvpContainer();
+            mvpActivityComponent.inject(mvpContainer);
+            SdkAndroidInjection.inject(activity, mvpContainer);
+        } else if (activity instanceof Injectable) {
             SdkAndroidInjection.inject(activity);
         }
         if (activity instanceof FragmentActivity) {
@@ -81,6 +90,14 @@ public class SdkInjector {
                                     super.onFragmentCreated(fm, f, savedInstanceState);
                                     if (f instanceof Injectable) {
                                         SdkAndroidInjection.inject(f);
+                                    } else if (f instanceof MvpInjectable) {
+                                        MvpContainer mvpContainer = SdkInjector.getSdkComponent()
+                                                .mvpComponentBuilder()
+                                                .activityProvider(null)
+                                                .fragmentProvider(new AndroidProvider<>(f))
+                                                .build().inject(new MvpContainer());
+                                        // TODO: TEST Fragment Inject When Activity is MvpInjectable
+                                        SdkAndroidInjection.inject(f, mvpContainer);
                                     }
                                 }
                             }, true
