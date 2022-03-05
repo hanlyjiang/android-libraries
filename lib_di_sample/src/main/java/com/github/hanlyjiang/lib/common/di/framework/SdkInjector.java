@@ -30,11 +30,10 @@ public class SdkInjector {
 
     private static final String TAG = "SdkInjector";
 
-    private static SdkComponent sSdkComponent;
     private static SdkContainer sSdkContainer;
 
     public static SdkComponent getSdkComponent() {
-        return sSdkComponent;
+        return sSdkContainer.getSdkComponent();
     }
 
     public static SdkContainer getSdkContainer() {
@@ -50,64 +49,58 @@ public class SdkInjector {
         if (sSdkContainer != null) {
             return;
         }
-        sSdkComponent = DaggerSdkComponent.builder()
+        SdkComponent sSdkComponent = DaggerSdkComponent.builder()
                 .application(application)
                 .build();
-        SdkInjector.sSdkContainer = new SdkContainer();
+        SdkInjector.sSdkContainer = new SdkContainer(sSdkComponent);
         sSdkComponent.inject(sSdkContainer);
         sSdkContainer.testInject();
         application.registerActivityLifecycleCallbacks(new BasicActivityLifeCycleCallbacks() {
             @Override
-            public void onActivityPreCreated(@NonNull @NotNull Activity activity, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+            public void onActivityPreCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
                 injectActivity(activity, savedInstanceState);
                 super.onActivityPreCreated(activity, savedInstanceState);
             }
         });
     }
 
-    /**
-     * 销毁
-     */
-    public static void destory() {
-        sSdkComponent = null;
-        sSdkContainer = null;
-    }
-
-    private static void injectActivity(@NotNull Activity activity, @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    private static void injectActivity(@NotNull Activity activity, @Nullable Bundle savedInstanceState) {
         if (activity instanceof MvpInjectable) {
             MvpModule.MvpComponent mvpActivityComponent = SdkInjector.getSdkComponent()
                     .mvpComponentBuilder().activityProvider(new AndroidProvider<>(activity)).build();
-            MvpContainer mvpContainer = new MvpContainer();
+            MvpContainer mvpContainer = new MvpContainer(mvpActivityComponent);
             mvpActivityComponent.inject(mvpContainer);
             SdkAndroidInjection.inject(activity, mvpContainer);
         } else if (activity instanceof Injectable) {
             SdkAndroidInjection.inject(activity);
         } else {
-            Log.w(TAG,"Warning! You Activity " + activity.getClass().getSimpleName() + "is not injectable! "  );
+            Log.w(TAG, "Warning! You Activity " + activity.getClass().getSimpleName() + "is not injectable! ");
         }
         if (activity instanceof FragmentActivity) {
+            final FragmentManager.FragmentLifecycleCallbacks lifecycleCallbacks = new FragmentManager.FragmentLifecycleCallbacks() {
+                @Override
+                public void onFragmentAttached(@NonNull @NotNull FragmentManager fm, @NonNull @NotNull Fragment f, @NonNull @NotNull Context context) {
+                    super.onFragmentAttached(fm, f, context);
+                    injectFragment(f);
+                }
+            };
             ((FragmentActivity) activity).getSupportFragmentManager()
-                    .registerFragmentLifecycleCallbacks(
-                            new FragmentManager.FragmentLifecycleCallbacks() {
+                    .registerFragmentLifecycleCallbacks(lifecycleCallbacks, true);
+        }
+    }
 
-                                @Override
-                                public void onFragmentAttached(@NonNull @NotNull FragmentManager fm, @NonNull @NotNull Fragment f, @NonNull @NotNull Context context) {
-                                    super.onFragmentAttached(fm, f, context);
-                                    if (f instanceof Injectable) {
-                                        SdkAndroidInjection.inject(f);
-                                    } else if (f instanceof MvpInjectable) {
-                                        MvpContainer mvpContainer = SdkInjector.getSdkComponent()
-                                                .mvpComponentBuilder()
-                                                .fragmentProvider(new AndroidProvider<>(f))
-                                                .build().inject(new MvpContainer());
-                                        // TODO: TEST Fragment Inject When Activity is MvpInjectable
-                                        SdkAndroidInjection.inject(f, mvpContainer);
-                                    } else {
-                                        Log.w(TAG, "Warning! You fragment  " + f.getClass().getSimpleName() + " is not injectable!");
-                                    }
-                                }
-                            }, true
-                    );
+    private static void injectFragment(@NotNull Fragment f) {
+        if (f instanceof Injectable) {
+            SdkAndroidInjection.inject(f);
+        } else if (f instanceof MvpInjectable) {
+            MvpModule.MvpComponent mvpComponent = SdkInjector.getSdkComponent()
+                    .mvpComponentBuilder()
+                    .fragmentProvider(new AndroidProvider<>(f))
+                    .build();
+            MvpContainer mvpContainer = mvpComponent.inject(new MvpContainer(mvpComponent));
+            SdkAndroidInjection.inject(f, mvpContainer);
+        } else {
+            Log.w(TAG, "Warning! You fragment  " + f.getClass().getSimpleName() + " is not injectable!");
         }
     }
 }

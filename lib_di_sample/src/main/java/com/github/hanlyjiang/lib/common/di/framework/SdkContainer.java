@@ -11,7 +11,9 @@ import javax.inject.Inject;
 /**
  * SDK 容器
  */
-public class SdkContainer implements HasAndroidInjector {
+public class SdkContainer implements HasAndroidInjector, IDiContainer {
+
+    private SdkComponent sdkComponent;
 
     @Inject
     protected DispatchingAndroidInjector<Object> androidInjector;
@@ -21,6 +23,10 @@ public class SdkContainer implements HasAndroidInjector {
 
     @Inject
     protected TestObj testObj;
+
+    public SdkContainer(SdkComponent sdkComponent) {
+        this.sdkComponent = sdkComponent;
+    }
 
     public void testInject() {
         assert testSingleton != null;
@@ -32,4 +38,12 @@ public class SdkContainer implements HasAndroidInjector {
         return androidInjector;
     }
 
+    @Override
+    public void destory() {
+
+    }
+
+    public SdkComponent getSdkComponent() {
+        return sdkComponent;
+    }
 }

@@ -29,8 +29,8 @@ public class TestDiMvpFragment extends Fragment implements TestDiMvpFragmentPres
 
     @Inject
     TestDiMvpFragmentPresenter presenter;
-    private com.github.hanlyjiang.lib.common.di.databinding.ActivityFragmentEmptyInfoBinding binding;
 
+    private com.github.hanlyjiang.lib.common.di.databinding.ActivityFragmentEmptyInfoBinding binding;
 
     @Nullable
     @Override

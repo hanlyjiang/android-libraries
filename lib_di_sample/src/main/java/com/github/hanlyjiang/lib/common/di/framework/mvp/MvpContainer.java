@@ -3,6 +3,8 @@ package com.github.hanlyjiang.lib.common.di.framework.mvp;
 import android.app.Activity;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import com.github.hanlyjiang.lib.common.di.framework.IDiContainer;
+import com.github.hanlyjiang.lib.common.di.framework.module.MvpModule;
 import com.github.hanlyjiang.lib.common.di.framework.scope.MvpScope;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
@@ -17,7 +19,9 @@ import javax.inject.Inject;
  * @version 1.0
  */
 @MvpScope
-public class MvpContainer implements HasAndroidInjector {
+public class MvpContainer implements HasAndroidInjector , IDiContainer {
+
+    protected MvpModule.MvpComponent mvpComponent;
 
     /**
      * Provider Activity
@@ -45,16 +49,23 @@ public class MvpContainer implements HasAndroidInjector {
     @Inject
     protected DispatchingAndroidInjector<Object> androidInjector;
 
-    public MvpContainer() {
+    public MvpContainer(MvpModule.MvpComponent mvpComponent) {
+        this.mvpComponent = mvpComponent;
     }
 
     /**
      * {@link com.github.hanlyjiang.lib.common.di.framework.SdkAndroidInjection SdkAndroidInjection }
      * 中使用此方法来获取对应的Android组件注入器
+     *
      * @return AndroidInjector<Object>
      */
     @Override
     public AndroidInjector<Object> androidInjector() {
         return androidInjector;
+    }
+
+    @Override
+    public void destory() {
+        this.mvpComponent = null;
     }
 }
