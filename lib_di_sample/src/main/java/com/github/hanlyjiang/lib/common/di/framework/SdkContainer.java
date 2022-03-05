@@ -14,13 +14,13 @@ import javax.inject.Inject;
 public class SdkContainer implements HasAndroidInjector {
 
     @Inject
-    DispatchingAndroidInjector<Object> androidInjector;
+    protected DispatchingAndroidInjector<Object> androidInjector;
 
     @Inject
-    TestSingleton testSingleton;
+    protected TestSingleton testSingleton;
 
     @Inject
-    TestObj testObj;
+    protected TestObj testObj;
 
     public void testInject() {
         assert testSingleton != null;

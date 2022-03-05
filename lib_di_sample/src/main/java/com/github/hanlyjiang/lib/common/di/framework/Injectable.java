@@ -5,7 +5,7 @@ import com.github.hanlyjiang.lib.common.di.framework.module.FragmentModule;
 import com.github.hanlyjiang.lib.common.di.framework.module.ServiceModule;
 
 /**
- * Activity 或 Fragment 或  Service 实现此接口以标识类是否是可以被注入的，同时也需要在
+ * 普通（非MVP）的 Activity 或 Fragment 或  Service 实现此接口以标识类是否是可以被注入的，同时也需要在
  * {@link ActivityModule  ActivityModule}
  * 或 {@link FragmentModule FragmentModule}
  * 或 {@link ServiceModule ServiceModule}

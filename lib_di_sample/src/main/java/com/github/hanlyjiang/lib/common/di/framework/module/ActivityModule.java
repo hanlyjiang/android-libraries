@@ -10,6 +10,4 @@ public interface ActivityModule {
     @ContributesAndroidInjector
     TestDiMainActivity contributeTestDiMainActivity();
 
-//    @ContributesAndroidInjector
-//    TestDiMvpActivity contributeTestDiMvpActivity();
 }

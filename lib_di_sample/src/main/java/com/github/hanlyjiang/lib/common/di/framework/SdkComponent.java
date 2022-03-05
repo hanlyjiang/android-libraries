@@ -2,7 +2,6 @@ package com.github.hanlyjiang.lib.common.di.framework;
 
 
 import android.app.Application;
-import android.content.Context;
 import com.github.hanlyjiang.lib.common.di.framework.module.*;
 import dagger.BindsInstance;
 import dagger.Component;
@@ -10,14 +9,19 @@ import dagger.android.AndroidInjectionModule;
 
 import javax.inject.Singleton;
 
+/**
+ * 库模块中的Root Component
+ */
 @Singleton
 @Component(
         modules = {
                 AndroidInjectionModule.class,
-                NormalObjModule.class,
+                AppModule.class,
                 ActivityModule.class,
                 FragmentModule.class,
                 ServiceModule.class,
+                NormalObjModule.class,
+                // MVP 组件
                 MvpModule.class
         }
 )
@@ -31,19 +35,10 @@ public interface SdkComponent {
     interface Builder {
 
         /**
-         * 用于提供 Context 类对象（使用 applicationContext）
-         *
-         * @param appContext applicationContext
-         * @return
-         */
-        @BindsInstance
-        Builder context(Context appContext);
-
-        /**
          * 用于提供 Application 对象
          *
-         * @param application
-         * @return
+         * @param application Application
+         * @return Builder
          */
         @BindsInstance
         Builder application(Application application);
