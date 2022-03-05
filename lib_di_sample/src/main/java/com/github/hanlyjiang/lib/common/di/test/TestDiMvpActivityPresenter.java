@@ -6,7 +6,7 @@ import com.github.hanlyjiang.lib.common.di.test.mvp.BaseView;
 
 import javax.inject.Inject;
 
-public class TestDiPresenter extends BasePresenter<TestDiPresenter.TestDiView> {
+public class TestDiMvpActivityPresenter extends BasePresenter<TestDiMvpActivityPresenter.TestDiView> {
 
     @Inject
     TestSingleton testSingleton;
@@ -19,7 +19,7 @@ public class TestDiPresenter extends BasePresenter<TestDiPresenter.TestDiView> {
     }
 
     @Inject
-    public TestDiPresenter(Context context, TestDiView view) {
+    public TestDiMvpActivityPresenter(Context context, TestDiView view) {
         super(context, view);
     }
 

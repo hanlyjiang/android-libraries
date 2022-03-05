@@ -20,6 +20,7 @@ import javax.inject.Singleton;
                 ActivityModule.class,
                 FragmentModule.class,
                 ServiceModule.class,
+                BroadcastReceiverModule.class,
                 NormalObjModule.class,
                 // MVP 组件
                 MvpModule.class

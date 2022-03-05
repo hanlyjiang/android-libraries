@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.ContentProvider;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -26,6 +27,8 @@ import org.jetbrains.annotations.NotNull;
  * |  {@link  SdkAndroidInjection#inject(BroadcastReceiver, Context)} }
  */
 public class SdkInjector {
+
+    private static final String TAG = "SdkInjector";
 
     private static SdkComponent sSdkComponent;
     private static SdkContainer sSdkContainer;
@@ -79,14 +82,17 @@ public class SdkInjector {
             SdkAndroidInjection.inject(activity, mvpContainer);
         } else if (activity instanceof Injectable) {
             SdkAndroidInjection.inject(activity);
+        } else {
+            Log.w(TAG,"Warning! You Activity " + activity.getClass().getSimpleName() + "is not injectable! "  );
         }
         if (activity instanceof FragmentActivity) {
             ((FragmentActivity) activity).getSupportFragmentManager()
                     .registerFragmentLifecycleCallbacks(
                             new FragmentManager.FragmentLifecycleCallbacks() {
+
                                 @Override
-                                public void onFragmentCreated(FragmentManager fm, Fragment f, Bundle savedInstanceState) {
-                                    super.onFragmentCreated(fm, f, savedInstanceState);
+                                public void onFragmentAttached(@NonNull @NotNull FragmentManager fm, @NonNull @NotNull Fragment f, @NonNull @NotNull Context context) {
+                                    super.onFragmentAttached(fm, f, context);
                                     if (f instanceof Injectable) {
                                         SdkAndroidInjection.inject(f);
                                     } else if (f instanceof MvpInjectable) {
@@ -96,6 +102,8 @@ public class SdkInjector {
                                                 .build().inject(new MvpContainer());
                                         // TODO: TEST Fragment Inject When Activity is MvpInjectable
                                         SdkAndroidInjection.inject(f, mvpContainer);
+                                    } else {
+                                        Log.w(TAG, "Warning! You fragment  " + f.getClass().getSimpleName() + " is not injectable!");
                                     }
                                 }
                             }, true

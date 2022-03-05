@@ -6,16 +6,18 @@
         <service
             android:name=".test.TestDiService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="false">
         </service>
 
         <activity
             android:name=".test.TestDiMainActivity"
-            android:exported="true"/>
+            android:label="TestDiMainActivity"
+            android:exported="false"/>
 
         <activity
             android:name=".test.TestDiMvpActivity"
-            android:exported="true"/>
+            android:exported="false"
+            android:label="TestDiMvpActivity"/>
     </application>
 
 </manifest>

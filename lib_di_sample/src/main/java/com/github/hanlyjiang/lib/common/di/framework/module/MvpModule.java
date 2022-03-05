@@ -7,7 +7,9 @@ import com.github.hanlyjiang.lib.common.di.framework.mvp.AndroidProvider;
 import com.github.hanlyjiang.lib.common.di.framework.mvp.MvpContainer;
 import com.github.hanlyjiang.lib.common.di.framework.scope.MvpScope;
 import com.github.hanlyjiang.lib.common.di.test.TestDiMvpActivity;
-import com.github.hanlyjiang.lib.common.di.test.TestDiPresenter;
+import com.github.hanlyjiang.lib.common.di.test.TestDiMvpFragment;
+import com.github.hanlyjiang.lib.common.di.test.TestDiMvpFragmentPresenter;
+import com.github.hanlyjiang.lib.common.di.test.TestDiMvpActivityPresenter;
 import dagger.BindsInstance;
 import dagger.Module;
 import dagger.Provides;
@@ -29,9 +31,9 @@ public interface MvpModule {
 
         @MvpScope
         @Provides
-        static TestDiPresenter.TestDiView bindTestDiView(@Nullable AndroidProvider<Activity> activityProvider) {
+        static TestDiMvpActivityPresenter.TestDiView bindTestDiView(@Nullable AndroidProvider<Activity> activityProvider) {
             if (activityProvider != null) {
-                return (TestDiPresenter.TestDiView) activityProvider.get();
+                return (TestDiMvpActivityPresenter.TestDiView) activityProvider.get();
             } else {
                 throw new NullPointerException("Please provider activity provider when build component!");
             }
@@ -42,7 +44,23 @@ public interface MvpModule {
          * @return TestDiMvpActivity
          */
         @ContributesAndroidInjector
-        abstract TestDiMvpActivity testDiMvpActivity();
+        abstract TestDiMvpActivity contributeTestDiMvpActivity();
+
+        @MvpScope
+        @Provides
+        static TestDiMvpFragmentPresenter.View bindTestTestDiMvpFragmentView(@Nullable AndroidProvider<Fragment> fragmentAndroidProvider) {
+            if (fragmentAndroidProvider != null) {
+                return (TestDiMvpFragmentPresenter.View) fragmentAndroidProvider.get();
+            } else {
+                throw new NullPointerException("Please provider Fragment provider when build component!");
+            }
+        }
+        /**
+         * 提供 TestDiMvpFragment 的注入接口
+         * @return TestDiMvpFragment
+         */
+        @ContributesAndroidInjector
+        abstract TestDiMvpFragment contributeTestDiMvpFragment();
 
     }
 
