@@ -23,7 +23,8 @@ import javax.inject.Singleton;
                 BroadcastReceiverModule.class,
                 NormalObjModule.class,
                 // MVP 组件
-                MvpModule.class
+                MvpModule.class,
+                TestDiMvpActivityModule.class,
         }
 )
 public interface SdkComponent {
@@ -31,6 +32,8 @@ public interface SdkComponent {
     void inject(SdkContainer sdkContainer);
 
     MvpModule.MvpComponent.Builder mvpComponentBuilder();
+
+    TestDiMvpActivityModule.MvpComponent.Builder testDiMvpActivityMComponentBuilder();
 
     @Component.Builder
     interface Builder {

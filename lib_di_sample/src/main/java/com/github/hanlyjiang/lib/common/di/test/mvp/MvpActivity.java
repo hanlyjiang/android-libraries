@@ -7,13 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LifecycleRegistry;
-import com.github.hanlyjiang.lib.common.di.framework.mvp.MvpInjectable;
 
 import javax.inject.Inject;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class MvpActivity<P extends BasePresenter, V extends BaseView> extends AppCompatActivity implements MvpInjectable {
+public class MvpActivity<P extends BasePresenter, V extends BaseView> extends AppCompatActivity {
     private List<LifecycleObserver> mLifecycleObservers = new CopyOnWriteArrayList<>();
 
     @Inject

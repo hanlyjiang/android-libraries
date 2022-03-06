@@ -22,7 +22,7 @@ public class TestDiMvpActivityPresenter extends BasePresenter<TestDiMvpActivityP
     }
 
     @Inject
-    public TestDiMvpActivityPresenter(@ActivityContext Context context, TestDiView view) {
+    public TestDiMvpActivityPresenter( Context context, TestDiView view) {
         super(context, view);
     }
 
