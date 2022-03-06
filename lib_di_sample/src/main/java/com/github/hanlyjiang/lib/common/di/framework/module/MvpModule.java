@@ -1,8 +1,10 @@
 package com.github.hanlyjiang.lib.common.di.framework.module;
 
 import android.app.Activity;
+import android.content.Context;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import com.github.hanlyjiang.lib.common.di.framework.ActivityContext;
 import com.github.hanlyjiang.lib.common.di.framework.mvp.AndroidProvider;
 import com.github.hanlyjiang.lib.common.di.framework.mvp.MvpContainer;
 import com.github.hanlyjiang.lib.common.di.framework.scope.MvpScope;
@@ -29,6 +31,22 @@ import dagger.android.ContributesAndroidInjector;
 public interface MvpModule {
     @Module
     abstract class MvpProvider {
+
+        /**
+         * 提供 ActivityContext
+         * @param activityProvider AndroidProvider<Activity>
+         * @return ActivityContext
+         */
+        @MvpScope
+        @Provides
+        @ActivityContext
+        static Context bindActivityContext(@Nullable AndroidProvider<Activity> activityProvider) {
+            if (activityProvider != null) {
+                return activityProvider.get();
+            } else {
+                throw new NullPointerException("Please provider activity provider when build component!");
+            }
+        }
 
         @MvpScope
         @Provides

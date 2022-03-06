@@ -1,6 +1,8 @@
 package com.github.hanlyjiang.lib.common.di.test;
 
 import android.content.Context;
+import android.util.Log;
+import com.github.hanlyjiang.lib.common.di.framework.ActivityContext;
 import com.github.hanlyjiang.lib.common.di.test.mvp.BasePresenter;
 import com.github.hanlyjiang.lib.common.di.test.mvp.BaseView;
 
@@ -19,12 +21,13 @@ public class TestDiMvpFragmentPresenter extends BasePresenter<TestDiMvpFragmentP
     TestObj testObj;
 
     @Inject
-    public TestDiMvpFragmentPresenter(Context context, View view) {
+    public TestDiMvpFragmentPresenter(@ActivityContext Context context, View view) {
         super(context, view);
     }
 
     public void assertInject(){
         Test.assertInject(this,testSingleton,testObj);
+        Log.d(getClass().getSimpleName(),"context = " + getContext()+"");
     }
 
     public interface View extends BaseView {

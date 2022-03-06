@@ -81,7 +81,7 @@ public class SdkInjector {
                 @Override
                 public void onFragmentAttached(@NonNull @NotNull FragmentManager fm, @NonNull @NotNull Fragment f, @NonNull @NotNull Context context) {
                     super.onFragmentAttached(fm, f, context);
-                    injectFragment(f);
+                    injectFragment(f, activity);
                 }
             };
             ((FragmentActivity) activity).getSupportFragmentManager()
@@ -89,12 +89,13 @@ public class SdkInjector {
         }
     }
 
-    private static void injectFragment(@NotNull Fragment f) {
+    private static void injectFragment(@NotNull Fragment f, @NotNull Activity activity) {
         if (f instanceof Injectable) {
             SdkAndroidInjection.inject(f);
         } else if (f instanceof MvpInjectable) {
             MvpModule.MvpComponent mvpComponent = SdkInjector.getSdkComponent()
                     .mvpComponentBuilder()
+                    .activityProvider(new AndroidProvider<>(activity))
                     .fragmentProvider(new AndroidProvider<>(f))
                     .build();
             MvpContainer mvpContainer = mvpComponent.inject(new MvpContainer(mvpComponent));

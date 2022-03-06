@@ -5,21 +5,19 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
+import com.github.hanlyjiang.lib.common.di.framework.ActivityContext;
 
 import javax.inject.Inject;
 
 public class BasePresenter<V extends BaseView> implements LifecycleEventObserver {
 
-    @Inject
-    public V mView;
+    private final V mView;
 
-    @Inject
-    public Context mContext;
+    private final Context mContext;
 
     //获取当前生命周期
     public Lifecycle.Event mLifecycleEvent;
 
-    @Inject
     public BasePresenter(Context context, V view) {
         mContext = context;
         mView = view;
