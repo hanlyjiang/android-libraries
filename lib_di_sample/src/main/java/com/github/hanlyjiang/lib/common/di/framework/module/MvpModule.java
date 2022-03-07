@@ -8,10 +8,7 @@ import com.github.hanlyjiang.lib.common.di.framework.ActivityContext;
 import com.github.hanlyjiang.lib.common.di.framework.mvp.AndroidProvider;
 import com.github.hanlyjiang.lib.common.di.framework.mvp.MvpContainer;
 import com.github.hanlyjiang.lib.common.di.framework.scope.MvpScope;
-import com.github.hanlyjiang.lib.common.di.test.TestDiMvpActivity;
-import com.github.hanlyjiang.lib.common.di.test.TestDiMvpActivityPresenter;
-import com.github.hanlyjiang.lib.common.di.test.TestDiMvpFragment;
-import com.github.hanlyjiang.lib.common.di.test.TestDiMvpFragmentPresenter;
+import com.github.hanlyjiang.lib.common.di.test.*;
 import dagger.BindsInstance;
 import dagger.Module;
 import dagger.Provides;
@@ -96,6 +93,8 @@ public interface MvpModule {
     interface MvpComponent {
 
         MvpContainer inject(MvpContainer mvpContainer);
+
+        TestMvpScope testMvpScope();
 
         @Subcomponent.Builder
         interface Builder {
