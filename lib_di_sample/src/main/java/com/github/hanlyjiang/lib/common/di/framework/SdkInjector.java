@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ContentProvider;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -56,9 +57,20 @@ public class SdkInjector {
         sSdkComponent.inject(sSdkContainer);
         sSdkContainer.testInject();
         application.registerActivityLifecycleCallbacks(new BasicActivityLifeCycleCallbacks() {
+
+            @Override
+            public void onActivityCreated(@NonNull @NotNull Activity activity, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+                super.onActivityCreated(activity, savedInstanceState);
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+                    injectActivity(activity, savedInstanceState);
+                }
+            }
+
             @Override
             public void onActivityPreCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
-                injectActivity(activity, savedInstanceState);
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+                    injectActivity(activity, savedInstanceState);
+                }
                 super.onActivityPreCreated(activity, savedInstanceState);
             }
         });
