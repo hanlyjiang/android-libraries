@@ -1,3 +1,5 @@
+import com.github.hanlyjiang.gradle_helper.PropertiesUtils.getProperties
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -58,4 +60,16 @@ dependencies {
     implementation(project(path = ":lib_di_sample"))
 
 //    implementation("com.github.hanlyjiang:android_common_utils:1.0.3-SNAPSHOT")
+}
+
+tasks.create("getProp").apply {
+    group = "help"
+    doLast {
+        val value = getProperties(
+            project,
+            "testBoolean",
+            false
+        )
+        logger.log(LogLevel.LIFECYCLE, "value is :$value")
+    }
 }

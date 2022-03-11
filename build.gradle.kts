@@ -4,12 +4,17 @@ buildscript {
     val androidGradleBuildVersion: String by extra
     val kotlinVersion: String by extra
     repositories {
+        maven {
+            name = "ProjectLocal-Release"
+            setUrl(File( "./local-maven-repo${File.separator}release"))
+        }
         // build model 卡住： https://blog.csdn.net/weixin_37119423/article/details/111500493
         MavenRepoMgr.applyAll(this)
     }
     dependencies {
         classpath("com.android.tools.build:gradle:$androidGradleBuildVersion")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
+        classpath("com.github.hanlyjiang:gradle-helper:1.0.0")
     }
 }
 

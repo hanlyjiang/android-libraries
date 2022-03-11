@@ -1,0 +1,20 @@
+plugins {
+    id 'java-library'
+    id 'kotlin'
+}
+
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.gradle/gradle-tooling-api
+//    implementation 'gradle-api:7.3.3'
+    implementation gradleApi()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+}
+
+//apply from: "./upload-local.gradle"
+apply from: "./upload.gradle"
+

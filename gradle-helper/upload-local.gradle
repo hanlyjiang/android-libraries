@@ -1,0 +1,32 @@
+apply plugin: 'maven-publish'
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    getArchiveClassifier().set('sources')
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    getArchiveClassifier().set('javadoc')
+}
+
+publishing {
+    publications {
+        // 本地AAR 发布
+        libs(MavenPublication) {
+            // 替换为对应的实际值
+            groupId "com.github.hanlyjiang"
+            artifactId "gradle-helper"
+            version "1.0.0"
+            artifact jar
+            artifact javadocJar
+            artifact sourcesJar
+        }
+    }
+    repositories {
+        maven {
+            name = "ProjectLocal-Release"
+            setUrl(new File(rootProject.rootDir, "local-maven-repo${File.separator}release").absolutePath)
+        }
+    }
+}
