@@ -179,7 +179,15 @@ class AndroidMavenPubPlugin : Plugin<Project> {
         if (pluginExtension.projectLocalRepoPath.isPresent) {
             project.rootProject.run {
                 dir = objects.directoryProperty().apply {
-                    set(File(rootDir, pluginExtension.projectLocalRepoPath.get()))
+                    pluginExtension.projectLocalRepoPath.get().let {
+                        if (it.startsWith("/")) {
+                            // 绝对路径
+                            set(File(it))
+                        } else {
+                            // 相对路径
+                            set(File(rootDir, pluginExtension.projectLocalRepoPath.get()))
+                        }
+                    }
                 }.get()
             }
         }
