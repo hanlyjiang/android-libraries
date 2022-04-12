@@ -51,11 +51,10 @@ public class ArcView extends View {
         mPath = new Path();
         mPaint.setAntiAlias(true);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
+        // 不设置StrokeWidth 会导致锯齿
         mPaint.setStrokeWidth(8);
         mPaint.setColor(arcBgColor);
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-
-
     }
 
     @Override

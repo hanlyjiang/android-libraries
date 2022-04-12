@@ -10,7 +10,7 @@ plugins {
     kotlin("kapt")
 
     // 引入我们本地仓库中的gradle插件
-    id("com.github.hanlyjiang.android_maven_pub") version ("0.0.10") apply (false)
+    id("com.github.hanlyjiang.android_maven_pub") version ("0.0.13") apply (false)
 }
 
 // 引入buildSrc中的插件
@@ -67,7 +67,7 @@ configure<io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension> {
     groupId.set("com.github.hanlyjiang")
     artifactId.set("android-common-ui")
     projectLocalRepoPath.set("local-maven-repo")
-    versionName.set("0.0.1-SNAPSHOT")
+    versionName.set("0.0.2-SNAPSHOT")
     mavenPomAction.set(Action<MavenPom> {
         name.set("Android Common UI Lib")
         description.set("Android Common UI Library For HJ")

@@ -12,7 +12,7 @@ import com.github.hanlyjiang.lib.common.ui.R
  *
  * @constructor Create empty Base list activity
  */
-abstract class BaseListActivity<T, VH : RecyclerView.ViewHolder?> : AppCompatActivity() {
+abstract class BaseListActivity<T, VH : RecyclerView.ViewHolder?> : DemoBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +21,15 @@ abstract class BaseListActivity<T, VH : RecyclerView.ViewHolder?> : AppCompatAct
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = SimpleListAdapter(getQuickAdapter())
         }
+        supportActionBar?.run {
+            getTitleText()?.let {
+                title = it
+            }
+        }
+    }
+
+    fun getTitleText(): String? {
+        return null
     }
 
     /**
@@ -31,6 +40,7 @@ abstract class BaseListActivity<T, VH : RecyclerView.ViewHolder?> : AppCompatAct
     fun getRecyclerView(): RecyclerView {
         return findViewById<RecyclerView>(R.id.recyclerView)
     }
+
     /**
      * QuickAdapter返回
      *

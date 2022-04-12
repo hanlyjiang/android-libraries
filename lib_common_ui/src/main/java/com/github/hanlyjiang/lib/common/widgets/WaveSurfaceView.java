@@ -13,8 +13,10 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.github.hanlyjiang.lib.common.ui.R;
 
 public class WaveSurfaceView extends SurfaceView {
@@ -201,7 +203,7 @@ public class WaveSurfaceView extends SurfaceView {
      * @param x X 坐标
      * @param p φ——初相，x=0时的相位；反映在坐标系上则为图像的左右移动。
      * @param k k——偏距，反映在坐标系上则为图像的上移或下移。
-     * @return
+     * @return 正弦值
      */
     public double sin(int A, float w, float x, float p, int k) {
         return A * Math.sin(Math.toRadians(w * x + p)) + k;

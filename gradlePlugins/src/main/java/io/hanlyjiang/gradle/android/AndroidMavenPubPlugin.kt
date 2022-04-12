@@ -89,7 +89,7 @@ class AndroidMavenPubPlugin : Plugin<Project> {
         project.extensions.configure("signing", Action<SigningExtension> {
             val publishing =
                 project.extensions.getByName(PublishingExtension.NAME) as PublishingExtension
-            sign(publishing.publications.getByName("release"))
+            sign(publishing.publications.getByName(getPubName()))
         })
     }
 
@@ -112,10 +112,10 @@ class AndroidMavenPubPlugin : Plugin<Project> {
                 val pubCreateAction: Action<in Publication> = Action<Publication> {
                     if (this is MavenPublication) {
                         this.apply {
-                            from(project.components.getByName("release"))
+                            from(project.components.getByName(pluginExtension.fromAndroidPubName.get()))
                             groupId = pluginExtension.groupId.get()
                             artifactId = pluginExtension.artifactId.get()
-                            version = pluginExtension.versionName.get()
+                            version = getPubVersion()
                             pom(pluginExtension.mavenPomAction.get())
                             pluginExtension.run {
                                 if (!includeJavadocJar.isPresent || includeJavadocJar.get()) {
@@ -130,7 +130,10 @@ class AndroidMavenPubPlugin : Plugin<Project> {
                         }
                     }
                 }
-                this.create("release", MavenPublication::class.java, pubCreateAction)
+                this.create(
+                    getPubName(),
+                    MavenPublication::class.java, pubCreateAction
+                )
             }
 
             repositories {
@@ -144,8 +147,7 @@ class AndroidMavenPubPlugin : Plugin<Project> {
 
                     val releasesRepoUrl = URI(getMavenReleaseUrl())
                     val snapshotsRepoUrl = URI(getMavenSnapshotsUrl())
-                    url = if (pluginExtension.versionName.get().toString()
-                            .endsWith("SNAPSHOT")
+                    url = if (isSnapshot()
                     ) snapshotsRepoUrl else releasesRepoUrl
                     credentials(ossrhCredentials)
                     // snapshot的地址：
@@ -159,12 +161,18 @@ class AndroidMavenPubPlugin : Plugin<Project> {
                         project.uri(projectLocalRepoPath(project).dir("release"))
                     val snapshotsRepoUrl =
                         project.uri(projectLocalRepoPath(project).dir("snapshots"))
-                    url = if (android.defaultConfig.versionName.toString()
-                            .endsWith("SNAPSHOT")
-                    ) snapshotsRepoUrl else releasesRepoUrl
+                    url = if (isSnapshot()) snapshotsRepoUrl else releasesRepoUrl
                 }
             }
         }
+
+    private fun getPubVersion() = pluginExtension.versionName.get()
+
+    private fun getPubName() =
+        if (isSnapshot()) "snapshot" else "release"
+
+    private fun isSnapshot() = getPubVersion().endsWith("SNAPSHOT")
+
 
     private fun projectLocalRepoPath(project: Project): Directory {
         var dir: Directory? = project.rootProject.layout.buildDirectory.dir("mavenRepos").get()
