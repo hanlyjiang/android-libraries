@@ -21,7 +21,7 @@ public class DemoBaseActivity extends AppCompatActivity {
                 getSupportActionBar().setTitle(titleText());
             }
             if (showTitleBack()) {
-                getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_menu_revert);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             }
         }
     }
