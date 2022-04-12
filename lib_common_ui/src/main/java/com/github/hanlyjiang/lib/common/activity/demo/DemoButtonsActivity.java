@@ -18,7 +18,7 @@ public class DemoButtonsActivity extends DemoBaseActivity {
     protected LinearLayout mRootLayout;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRootLayout = new LinearLayout(this);
         mRootLayout.setOrientation(LinearLayout.VERTICAL);

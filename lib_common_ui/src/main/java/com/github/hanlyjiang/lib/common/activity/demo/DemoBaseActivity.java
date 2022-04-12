@@ -14,8 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class DemoBaseActivity extends AppCompatActivity {
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (getSupportActionBar() != null) {
             if (titleText() != null) {
                 getSupportActionBar().setTitle(titleText());
@@ -27,7 +27,7 @@ public class DemoBaseActivity extends AppCompatActivity {
     }
 
     public String titleText() {
-        return null;
+        return this.getClass().getSimpleName();
     }
 
     public boolean showTitleBack() {
