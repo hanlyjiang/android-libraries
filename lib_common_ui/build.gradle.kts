@@ -67,7 +67,7 @@ configure<io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension> {
     groupId.set("com.github.hanlyjiang")
     artifactId.set("android-common-ui")
     projectLocalRepoPath.set("local-maven-repo")
-    versionName.set("0.0.4-SNAPSHOT")
+    versionName.set(properties["versionName"] as String)
     mavenPomAction.set(Action<MavenPom> {
         name.set("Android Common UI Lib")
         description.set("Android Common UI Library For HJ")

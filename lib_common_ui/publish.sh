@@ -1,0 +1,2 @@
+
+gradle lib_common_ui:publishReleasePublicationToSonartypeRepository

@@ -55,7 +55,7 @@ configure<io.hanlyjiang.gradle.android.AndroidMavenPubPluginExtension> {
     groupId.set("com.github.hanlyjiang")
     artifactId.set("android-common-utils")
     projectLocalRepoPath.set("local-maven-repo")
-    versionName.set("1.0.6-SNAPSHOT")
+    versionName.set(properties["versionName"] as String)
     mavenPomAction.set(Action<MavenPom> {
         name.set("Android Common Utils Lib")
         description.set("Android Common Utils Library For HJ")
