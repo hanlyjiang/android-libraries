@@ -1,40 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cn.hanlyjiang.cutils.activity.WaveViewDemoActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="cn.hanlyjiang.cutils.activity.WaveViewDemoActivity">
 
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="8dp">
 
         <com.github.hanlyjiang.lib.common.widgets.WaveSurfaceView
             android:layout_width="150dp"
             android:layout_height="150dp"
-            app:waveColor="@color/purple_200"
-            app:waveAnimationDuration="1000"
             android:padding="4dp"
-            app:waveColumnCount="3"/>
+            android:visibility="gone"
+            app:waveAnimationDuration="1000"
+            app:waveColor="@color/purple_200"
+            app:waveColumnCount="3" />
 
         <com.github.hanlyjiang.lib.common.widgets.WaveView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            app:waveColor="@color/purple_200"
             android:padding="8dp"
-            app:waveColumnCount="3"/>
+            android:visibility="gone"
+            app:waveColor="@color/purple_200"
+            app:waveColumnCount="3" />
 
         <com.github.hanlyjiang.lib.common.widgets.ArcView
-            android:layout_width="180dp"
-            android:layout_height="180dp"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:background="@color/color_CC000000"
+            android:padding="10dp"
+            android:visibility="gone"
             app:arcBgColor="@color/purple_200"
-            app:arcHeight="100dp"/>
+            app:arcHeight="10dp" />
+
+        <com.github.hanlyjiang.lib.common.widgets.ArcView
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/color_CC000000"
+            android:padding="10dp"
+            android:visibility="gone"
+            app:arcBgColor="@color/purple_200"
+            app:arcHeight="30dp" />
+
+        <com.github.hanlyjiang.lib.common.widgets.ArcView
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/color_CC000000"
+            android:padding="10dp"
+            app:arcBgColor="@color/purple_200"
+            android:visibility="gone"
+            app:arcHeight="80dp" />
+
+
+        <com.github.hanlyjiang.lib.common.widgets.ArcView
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/color_CC000000"
+            android:padding="10dp"
+            app:arcBgColor="@color/purple_200"
+            android:visibility="gone"
+            app:arcHeight="100dp" />
+
+        <com.github.hanlyjiang.lib.common.widgets.ArcView
+            android:layout_width="wrap_content"
+            android:layout_height="180dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/color_CC000000"
+            app:arcBgColor="@color/purple_200"
+            app:arcHeight="-78dp"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
